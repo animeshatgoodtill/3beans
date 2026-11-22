@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3 Beans – Bookkeeping for cafés and restaurants</title>
+<meta name="description" content="Fixed-fee bookkeeping, payroll and VAT returns for UK cafés, coffee shops and restaurants. We connect your POS to Xero or QuickBooks and keep your books up to date every month.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f7f1e8;
+    --paper: #fffdf9;
+    --espresso: #2b1d14;
+    --roast: #5a3e2b;
+    --muted: #7a6656;
+    --line: #e6dccd;
+    --accent: #c4622d;
+    --accent-dark: #a24f22;
+    --leaf: #3f6b4f;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--espresso);
+    background: var(--cream);
+    line-height: 1.6;
+    font-size: 17px;
+  }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.15; margin: 0 0 .5em; }
+  h1 { font-size: clamp(2.3rem, 5vw, 3.6rem); font-weight: 700; letter-spacing: -0.01em; }
+  h2 { font-size: clamp(1.8rem, 3.4vw, 2.5rem); font-weight: 700; }
+  h3 { font-size: 1.25rem; font-weight: 500; }
+  p { margin: 0 0 1em; }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 88px 0; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; font-weight: 600; color: var(--accent); margin-bottom: 12px; }
+  .lead { font-size: 1.15rem; color: var(--roast); max-width: 640px; }
+  .btn {
+    display: inline-block; padding: 14px 26px; border-radius: 999px;
+    background: var(--accent); color: #fff; text-decoration: none; font-weight: 600;
+    transition: background .15s ease, transform .15s ease;
+  }
+  .btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .btn.ghost { background: transparent; color: var(--espresso); border: 1.5px solid var(--espresso); }
+  .btn.ghost:hover { background: var(--espresso); color: var(--cream); }
+
+  /* Nav */
+  header { position: sticky; top: 0; z-index: 10; background: rgba(247,241,232,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: "Fraunces", serif; font-weight: 700; font-size: 1.35rem; text-decoration: none; }
+  .logo svg { width: 30px; height: 30px; }
+  .nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; align-items: center; }
+  .nav ul a { text-decoration: none; font-weight: 500; font-size: .95rem; color: var(--roast); }
+  .nav ul a:hover { color: var(--espresso); }
+  .nav .btn { padding: 10px 20px; color: #fff; }
+  @media (max-width: 760px) { .nav ul li:not(:last-child) { display: none; } }
+
+  /* Hero */
+  .hero { padding: 96px 0 80px; }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; }
+  .hero .actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+  .hero .note { margin-top: 18px; font-size: .92rem; color: var(--muted); }
+  .flow { background: var(--paper); border: 1px solid var(--line); border-radius: 20px; padding: 28px; box-shadow: 0 20px 40px -24px rgba(43,29,20,.35); }
+  .flow-step { display: flex; gap: 14px; align-items: center; padding: 14px 0; }
+  .flow-step + .flow-step { border-top: 1px dashed var(--line); }
+  .flow-icon { flex: none; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--cream); }
+  .flow-step strong { display: block; font-size: .98rem; }
+  .flow-step span { font-size: .88rem; color: var(--muted); }
+  .flow-tag { margin-left: auto; font-size: .75rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #e7efe9; color: var(--leaf); white-space: nowrap; }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+
+  /* Problem strip */
+  .strip { background: var(--espresso); color: var(--cream); padding: 64px 0; }
+  .strip h2 { color: var(--cream); }
+  .strip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 28px; }
+  .strip-grid p { color: #d9cbbb; margin: 0; }
+  .strip-grid h3 { color: #fff; }
+  @media (max-width: 800px) { .strip-grid { grid-template-columns: 1fr; } }
+
+  /* Steps */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 40px; counter-reset: step; }
+  .step { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; position: relative; }
+  .step::before { counter-increment: step; content: counter(step); font-family: "Fraunces", serif; font-weight: 700; font-size: 2rem; color: var(--accent); display: block; margin-bottom: 8px; }
+  .step p { color: var(--roast); font-size: .96rem; margin: 0; }
+  @media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
+
+  /* Included */
+  .included { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .inc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 40px; margin-top: 40px; }
+  .inc h3 { display: flex; align-items: center; gap: 10px; }
+  .inc h3::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex: none; }
+  .inc p { color: var(--roast); font-size: .96rem; margin: 0; }
+  .pos-row { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--line); color: var(--muted); font-size: .95rem; }
+  .pos-row strong { color: var(--espresso); }
+  @media (max-width: 900px) { .inc-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .inc-grid { grid-template-columns: 1fr; } }
+
+  /* Pricing */
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 40px; align-items: stretch; }
+  .plan { background: var(--paper); border: 1px solid var(--line); border-radius: 20px; padding: 32px 28px; display: flex; flex-direction: column; }
+  .plan.featured { border: 2px solid var(--accent); position: relative; }
+  .plan.featured::after { content: "Most popular"; position: absolute; top: -13px; left: 28px; background: var(--accent); color: #fff; font-size: .75rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; }
+  .plan .for { color: var(--muted); font-size: .92rem; min-height: 3em; }
+  .price { font-family: "Fraunces", serif; font-size: 2.8rem; font-weight: 700; margin: 10px 0 2px; }
+  .price small { font-family: "Inter", sans-serif; font-size: .95rem; font-weight: 500; color: var(--muted); }
+  .plan ul { list-style: none; padding: 0; margin: 20px 0 28px; flex: 1; }
+  .plan li { padding: 7px 0 7px 28px; position: relative; font-size: .95rem; }
+  .plan li::before { content: "✓"; position: absolute; left: 0; color: var(--leaf); font-weight: 700; }
+  .plan .btn { text-align: center; }
+  .plan:not(.featured) .btn { background: var(--espresso); }
+  .plan:not(.featured) .btn:hover { background: var(--roast); }
+  .extras { margin-top: 40px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 28px; }
+  .extras table { width: 100%; border-collapse: collapse; }
+  .extras td { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: .96rem; vertical-align: top; }
+  .extras tr:last-child td { border-bottom: 0; }
+  .extras td:last-child { text-align: right; font-weight: 600; white-space: nowrap; padding-left: 16px; }
+  .extras td span { display: block; color: var(--muted); font-size: .88rem; }
+  .price-notes { margin-top: 18px; font-size: .9rem; color: var(--muted); }
+  @media (max-width: 900px) { .plans { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; } }
+
+  /* FAQ */
+  .faq { max-width: 780px; margin-top: 32px; }
+  details { border-bottom: 1px solid var(--line); padding: 18px 0; }
+  summary { cursor: pointer; font-weight: 600; font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 1.4rem; line-height: 1; color: var(--accent); }
+  details[open] summary::after { content: "–"; }
+  details p { margin: 12px 0 0; color: var(--roast); }
+
+  /* CTA */
+  .cta { background: var(--accent); color: #fff; border-radius: 24px; padding: 56px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center; }
+  .cta h2 { color: #fff; }
+  .cta p { color: #fbe6da; margin: 0; }
+  .cta .btn { background: #fff; color: var(--espresso); }
+  .cta .btn:hover { background: var(--cream); }
+  .cta .contact-lines { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .cta .contact-lines a.mail { color: #fff; font-weight: 600; }
+  @media (max-width: 800px) { .cta { grid-template-columns: 1fr; padding: 36px 28px; } }
+
+  footer { padding: 40px 0 56px; color: var(--muted); font-size: .88rem; }
+  .foot { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 28px; }
+  .foot a { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="3 Beans home">
+      <img src="/favicon.svg" alt="" width="30" height="30">
+      3 Beans
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#included">What's included</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="btn" href="#contact">Book a free call</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Bookkeeping for cafés, coffee shops &amp; restaurants</div>
+        <h1>Your books, done every month. Straight from your till.</h1>
+        <p class="lead">We connect your POS to Xero or QuickBooks, then look after your bookkeeping, payroll and VAT returns for one fixed monthly fee. You run the café. We keep the numbers right.</p>
+        <div class="actions">
+          <a class="btn" href="#contact">Book a free 20-minute call</a>
+          <a class="btn ghost" href="#pricing">See prices</a>
+        </div>
+        <p class="note">Plans from £129 a month. No hourly billing, no surprises.</p>
+      </div>
+      <div class="flow" aria-label="How your numbers flow">
+        <div class="flow-step">
+          <div class="flow-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a3e2b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h12v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z"/><path d="M16 10h2a2 2 0 0 1 0 4h-2"/><path d="M8 3v2M12 3v2"/></svg></div>
+          <div><strong>Your POS</strong><span>Daily sales, card takings, tips</span></div>
+          <div class="flow-tag">Automatic</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a3e2b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div>
+          <div><strong>Your receipts</strong><span>Snap a photo or forward the email</span></div>
+          <div class="flow-tag">10 seconds</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a3e2b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v18M12 8h4M12 12h4"/></svg></div>
+          <div><strong>Xero or QuickBooks</strong><span>Categorised, matched to the bank</span></div>
+          <div class="flow-tag">Done for you</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5a3e2b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 16v-5M12 16V7M17 16v-8"/></svg></div>
+          <div><strong>Your monthly report</strong><span>Profit, VAT and payroll on one page</span></div>
+          <div class="flow-tag">Every month</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="strip">
+    <div class="wrap">
+      <h2>Sound familiar?</h2>
+      <div class="strip-grid">
+        <div>
+          <h3>The till and the bank never match</h3>
+          <p>Card takings, card fees, tips and cash all land differently. Working out what really came in takes hours.</p>
+        </div>
+        <div>
+          <h3>Receipts in a shoebox</h3>
+          <p>Supplier bills and receipts pile up in a drawer and an inbox, and get sorted late, if at all.</p>
+        </div>
+        <div>
+          <h3>VAT returns are stressful</h3>
+          <p>Eat-in, takeaway, hot and cold food all carry different VAT rules. It's easy to get wrong and expensive to fix.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="eyebrow">How it works</div>
+      <h2>Set up once. Looked after every month.</h2>
+      <p class="lead">Most modern POS systems can send your sales into Xero or QuickBooks automatically. Very few cafés have it switched on. We switch it on and do the rest.</p>
+      <div class="steps">
+        <div class="step">
+          <h3>Free call</h3>
+          <p>20 minutes to understand your business: sites, staff, turnover and VAT. We pick the right plan with you on the call.</p>
+        </div>
+        <div class="step">
+          <h3>We connect everything</h3>
+          <p>We link your POS and bank to Xero or QuickBooks and set up your receipt inbox and staff list. Usually within a week.</p>
+        </div>
+        <div class="step">
+          <h3>You snap, we sort</h3>
+          <p>Photograph receipts or forward supplier emails. We categorise each one, check the VAT and match it to your bank.</p>
+        </div>
+        <div class="step">
+          <h3>Monthly close</h3>
+          <p>Every month we reconcile your books, run payroll and send you a simple one-page report. VAT returns filed on time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="included" class="included">
+    <div class="wrap">
+      <div class="eyebrow">What's included</div>
+      <h2>Full-cycle bookkeeping, built for hospitality</h2>
+      <div class="inc-grid">
+        <div class="inc">
+          <h3>POS integration</h3>
+          <p>Your daily sales flow into Xero or QuickBooks automatically. No more typing up Z-reports.</p>
+        </div>
+        <div class="inc">
+          <h3>Bank &amp; till reconciliation</h3>
+          <p>Card payouts, fees, cash and tips matched to your bank, so the numbers are right to the penny.</p>
+        </div>
+        <div class="inc">
+          <h3>Receipts &amp; bills</h3>
+          <p>Your own receipt inbox and photo capture. Every bill categorised with the right VAT rate.</p>
+        </div>
+        <div class="inc">
+          <h3>Payroll</h3>
+          <p>Weekly or monthly pay for salaried, hourly and part-time staff. Payslips, HMRC submissions and pensions handled.</p>
+        </div>
+        <div class="inc">
+          <h3>VAT returns</h3>
+          <p>Prepared, checked by a qualified accountant and filed through Making Tax Digital. No last-minute panic.</p>
+        </div>
+        <div class="inc">
+          <h3>Monthly reporting</h3>
+          <p>A one-page profit report every month, and full management accounts on larger plans.</p>
+        </div>
+      </div>
+      <p class="pos-row"><strong>Works with most modern POS systems,</strong> including Goodtill, Square, SumUp, Zettle, Lightspeed and Epos Now. Not sure about yours? Ask us.</p>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <div class="eyebrow">Pricing</div>
+      <h2>Simple, fixed monthly prices</h2>
+      <p class="lead">Pick a plan by size. If you grow, you move up a plan. We never charge by the hour.</p>
+
+      <div class="plans">
+        <div class="plan">
+          <h3>Single Shot</h3>
+          <p class="for">One site, turnover up to £150k, up to 5 staff</p>
+          <div class="price">£129 <small>/ month</small></div>
+          <ul>
+            <li>POS and bank reconciliation</li>
+            <li>Receipt app and email inbox</li>
+            <li>Bills and receipts categorised</li>
+            <li>Payroll for up to 5 staff</li>
+            <li>Quarterly VAT return</li>
+            <li>One-page monthly profit report</li>
+          </ul>
+          <a class="btn" href="#contact">Get started</a>
+        </div>
+        <div class="plan featured">
+          <h3>Double Shot</h3>
+          <p class="for">One site, turnover £150k–£500k, up to 15 staff</p>
+          <div class="price">£219 <small>/ month</small></div>
+          <ul>
+            <li>Everything in Single Shot</li>
+            <li>Payroll for up to 15 staff</li>
+            <li>Staff expense claims</li>
+            <li>Monthly management accounts</li>
+            <li>30-minute monthly call</li>
+          </ul>
+          <a class="btn" href="#contact">Get started</a>
+        </div>
+        <div class="plan">
+          <h3>Triple Shot</h3>
+          <p class="for">Multi-site, or turnover £500k–£1.5m, up to 30 staff</p>
+          <div class="price">£349 <small>/ month</small></div>
+          <ul>
+            <li>Everything in Double Shot</li>
+            <li>Payroll for up to 30 staff</li>
+            <li>Weekly reconciliation</li>
+            <li>Figures for each site</li>
+            <li>13-week cash-flow forecast</li>
+            <li>Quarterly review with an accountant</li>
+          </ul>
+          <a class="btn" href="#contact">Get started</a>
+        </div>
+      </div>
+
+      <div class="extras">
+        <table>
+          <tr><td>Setup and integration<span>POS link, bank feeds, receipt inbox, staff list, opening balances</span></td><td>£149 one-off</td></tr>
+          <tr><td>Year-end accounts and corporation tax return<span>Prepared by our partner accountant</span></td><td>£50 / month</td></tr>
+          <tr><td>Director's self-assessment tax return<span>Per director</span></td><td>£150 / year</td></tr>
+          <tr><td>Extra staff on payroll<span>Above your plan's limit</span></td><td>£4 per person / month</td></tr>
+          <tr><td>Catch-up bookkeeping<span>If your books are behind</span></td><td>£95 per month behind</td></tr>
+        </table>
+      </div>
+      <p class="price-notes">No VAT to add on our fees. Your Xero or QuickBooks subscription is paid separately. Paid monthly by Direct Debit.</p>
+    </div>
+  </section>
+
+  <section id="faq" class="included">
+    <div class="wrap">
+      <div class="eyebrow">Questions</div>
+      <h2>Frequently asked</h2>
+      <div class="faq">
+        <details>
+          <summary>Do I need Xero or QuickBooks already?</summary>
+          <p>No. If you don't have one yet, we'll help you choose and set it up as part of onboarding. The subscription is in your name, so your data always belongs to you.</p>
+        </details>
+        <details>
+          <summary>My POS is already set up. Is it too late?</summary>
+          <p>Not at all. We can connect an existing POS at any time. If your books are behind, our catch-up service brings them up to date first.</p>
+        </details>
+        <details>
+          <summary>How much of my time will this take?</summary>
+          <p>A few minutes a week: snap your receipts, and update staff hours before each payroll. We handle the rest and only contact you when we need something.</p>
+        </details>
+        <details>
+          <summary>Who checks my VAT return?</summary>
+          <p>Every VAT return is prepared by your bookkeeper and reviewed by a qualified partner accountant before you approve it and we file it.</p>
+        </details>
+        <details>
+          <summary>Can you do my year-end accounts too?</summary>
+          <p>Yes. Our partner accountant prepares your year-end accounts and corporation tax return for £50 a month, so there's no big bill at year end.</p>
+        </details>
+        <details>
+          <summary>Am I tied in?</summary>
+          <p>Plans run for 12 months, then continue month to month with 30 days' notice.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="cta">
+        <div>
+          <h2>Let's get your books sorted</h2>
+          <p>Book a free 20-minute call. We'll look at how your café runs today and tell you exactly which plan fits, with no obligation.</p>
+        </div>
+        <div class="contact-lines">
+          <a class="btn" href="mailto:hello@3beans.co.uk?subject=Free%20bookkeeping%20call">Email us to book a call</a>
+          <a class="mail" href="mailto:hello@3beans.co.uk">hello@3beans.co.uk</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 3 Beans. Registered in England and Wales.</div>
+    <div><a href="#top">Back to top</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
