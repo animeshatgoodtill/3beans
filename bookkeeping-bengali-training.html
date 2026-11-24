@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Bookkeeping training – 3 Beans</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&family=Hind+Siliguri:wght@400;500;600&family=Fraunces:opsz,wght@9..144,700&display=swap">
+<style>
+/* VOICE: friendly and playful, like a children's picture-card game, for grown-up bookkeeping words
+   IDEA: a box of picture flash cards plus a quiz show: learn, practise, then play for a score
+   PICTURE: the deck itself — chunky coloured cards with one big picture in a round window
+   COLOUR and TYPE: 3 Beans cream and espresso as the table; one bold colour per topic; Baloo Da 2 (Latin + Bengali), Nunito, Hind Siliguri
+   LAYOUT: brand bar, title, three mode tabs (Learn, Practise, Quiz), then the active mode */
+:root{color-scheme:light;--bg:#f7f1e8;--ink:#2b1d14;--soft:#7a6656;--card:#fffdf9;--line:#e6dccd;--accent:#c4622d;--good:#2f8a57;--bad:#d23c3c}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Nunito,system-ui,sans-serif;overflow-x:clip}
+.bn{font-family:"Hind Siliguri","Baloo Da 2",sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(4vw,16px)}
+header{border-bottom:1px solid var(--line);background:rgba(247,241,232,.94);position:sticky;top:0;z-index:5;backdrop-filter:blur(8px)}
+.top{display:flex;align-items:center;gap:12px;height:62px}
+.logo{display:flex;align-items:center;gap:9px;font:700 20px/1 Fraunces,Georgia,serif;text-decoration:none;color:var(--ink)}
+.logo img{width:28px;height:28px}
+.tabs{margin-left:auto;display:flex;gap:6px}
+.tab{font:800 15px/1 Nunito,sans-serif;min-height:44px;padding:0 16px;border-radius:999px;border:2px solid transparent;background:none;color:var(--soft);cursor:pointer}
+.tab[aria-selected=true]{background:var(--ink);color:var(--bg)}
+h1{font:800 clamp(30px,4.6vw,48px)/1.05 "Baloo Da 2",sans-serif;margin:26px 0 4px;text-wrap:balance}
+h2{font:800 clamp(24px,3vw,32px)/1.1 "Baloo Da 2",sans-serif;margin:0 0 8px}
+.sub{color:var(--soft);margin:0 0 18px;max-width:66ch}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:20px}
+.chip,.btn{font:800 15px/1 Nunito,sans-serif;min-height:44px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--c,var(--ink));border-color:var(--c,var(--ink));color:#fff}
+.btn.main{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn:disabled{opacity:.45;cursor:default}
+:is(.chip,.btn,.tab,.card,.opt,.play):focus-visible{outline:3px solid #2f6fde;outline-offset:3px}
+.spacer{flex:1}.count{color:var(--soft);font-weight:800;font-size:14px}
+.mode{display:none;padding-bottom:40px}.mode.on{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:18px}
+.card{perspective:1200px;cursor:pointer;height:410px;border-radius:24px;outline-offset:3px}
+.inner{position:relative;width:100%;height:100%;transition:transform .5s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
+.card.flip .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:24px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:var(--card);border:3px solid var(--c);box-shadow:0 6px 0 color-mix(in srgb,var(--c) 70%,#000)}
+.front{display:flex;flex-direction:column}
+.pic{flex:0 0 56%;background:var(--c);display:grid;place-items:center;position:relative}
+.pic::after{content:"";position:absolute;inset:auto 0 0 0;height:30%;background:linear-gradient(transparent,rgba(0,0,0,.12))}
+.win{width:120px;height:120px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:64px;line-height:1;box-shadow:inset 0 -6px 0 rgba(0,0,0,.08),0 8px 0 rgba(0,0,0,.15);z-index:1}
+.tag{position:absolute;top:12px;left:14px;font:800 13px/1 Nunito,sans-serif;color:#fff;background:rgba(0,0,0,.2);padding:6px 10px;border-radius:999px;z-index:1}
+.card.known .tag::after{content:" · known ✓"}
+.words{padding:12px 16px;display:flex;flex-direction:column;justify-content:center;flex:1}
+.word{font:800 25px/1.08 "Baloo Da 2",sans-serif;margin:0}
+.bnw{font-size:17px;color:var(--soft);margin-top:4px}
+.back{transform:rotateY(180deg);padding:14px 16px;display:flex;flex-direction:column;gap:7px;overflow:auto}
+.back h3{font:800 20px/1.1 "Baloo Da 2",sans-serif;margin:0;color:var(--c)}
+.back p{margin:0;font-size:14.5px;line-height:1.42}
+.say{border-left:4px solid var(--c);padding-left:10px;font-style:italic}
+.bnbox{background:color-mix(in srgb,var(--c) 13%,transparent);border-radius:14px;padding:8px 11px;font-size:15px;line-height:1.55}
+.plays{display:flex;gap:8px;margin-top:auto}
+.play{flex:1;font:800 14px/1 Nunito,sans-serif;min-height:40px;border-radius:999px;border:2px solid var(--c);background:var(--card);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.play.on{background:var(--c);color:#fff}
+.play svg{width:14px;height:14px;fill:currentColor}
+/* practise */
+.solo{max-width:560px;margin:0 auto}
+.solo .card{height:500px}
+.solo .win{width:150px;height:150px;font-size:84px}
+.solo .word{font-size:34px}
+.solo .back p,.solo .bnbox{font-size:17px}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.prog{text-align:center;color:var(--soft);font-weight:800;margin-top:10px}
+/* quiz */
+.qbox{max-width:720px;margin:0 auto}
+.hud{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;font-weight:800}
+.pill{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 14px;white-space:nowrap}
+.meter{height:12px;border-radius:999px;background:var(--line);overflow:hidden;margin-bottom:18px}
+.meter i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.q{background:var(--card);border:3px solid var(--c);border-radius:24px;box-shadow:0 6px 0 color-mix(in srgb,var(--c) 70%,#000);padding:20px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-bottom:16px}
+.q .win{width:92px;height:92px;font-size:50px;background:color-mix(in srgb,var(--c) 18%,#fff)}
+.qkind{font-weight:800;color:var(--c);font-size:14px;margin:0 0 4px}
+.qtext{font:700 20px/1.35 Nunito,sans-serif;margin:0}
+.qtext.bn{font-weight:500;font-size:19px;line-height:1.6}
+.opts{display:grid;gap:10px}
+.opt{font:700 17px/1.35 Nunito,sans-serif;text-align:left;min-height:56px;padding:12px 16px 12px 52px;border-radius:16px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;position:relative}
+.opt b{position:absolute;left:14px;top:50%;translate:0 -50%;width:28px;height:28px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:14px}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt.right{border-color:var(--good);background:#e6f4ec}.opt.right b{background:var(--good);color:#fff}
+.opt.wrong{border-color:var(--bad);background:#fbe7e7}.opt.wrong b{background:var(--bad);color:#fff}
+.opt:disabled{cursor:default}
+.fb{margin-top:14px;border-radius:16px;padding:14px 16px;display:none}
+.fb.on{display:block}.fb.good{background:#e6f4ec}.fb.bad{background:#fbe7e7}
+.fb strong{font:800 20px/1.2 "Baloo Da 2",sans-serif}
+.fb .plays{margin-top:10px;max-width:360px}
+.end{text-align:center;background:var(--card);border-radius:28px;border:3px solid var(--ink);padding:28px 20px}
+.big{font:800 clamp(56px,12vw,96px)/1 "Baloo Da 2",sans-serif;color:var(--accent)}
+.stars{font-size:40px;letter-spacing:6px;margin:6px 0}
+.missed{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0}
+.missed span{background:var(--bg);border-radius:999px;padding:6px 12px;font-weight:700}
+.setup{background:var(--card);border:2px solid var(--line);border-radius:24px;padding:22px}
+.setup h3{font:800 18px/1.2 "Baloo Da 2",sans-serif;margin:16px 0 8px}
+.foot{color:var(--soft);font-size:13px;margin-top:28px}
+@media(prefers-reduced-motion:reduce){.inner,.meter i{transition:none}}
+@media(max-width:600px){.top{height:auto;padding:8px 0;flex-wrap:wrap}.tabs{margin-left:0;width:100%}.tab{flex:1;padding:0 8px}header{position:static}.solo .card{height:540px}.q{grid-template-columns:1fr;justify-items:start}.spacer{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap top">
+  <a class="logo" href="/"><img src="/favicon.svg" alt="">3 Beans</a>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-m="learn" aria-selected="true">Learn</button>
+    <button class="tab" role="tab" data-m="prac" aria-selected="false">Practise</button>
+    <button class="tab" role="tab" data-m="quiz" aria-selected="false">Quiz</button>
+  </div>
+</div></header>
+
+<main class="wrap">
+  <h1>Bookkeeping words <span class="bn" style="font-size:.6em;color:var(--soft)">· বুককিপিং শব্দ শিখি</span></h1>
+  <p class="sub" id="intro">Tap a card to flip it. The back explains the word in plain English, gives a line to say to a café owner, and a short Bengali summary. Press English or বাংলা to hear it.</p>
+  <div class="bar" id="bar"></div>
+
+  <section class="mode on" id="m-learn"><div class="grid" id="grid"></div></section>
+
+  <section class="mode" id="m-prac"><div class="solo">
+    <div id="pcard"></div>
+    <div class="row">
+      <button class="btn" id="again">Again</button>
+      <button class="btn main" id="know">I know it</button>
+    </div>
+    <div class="prog" id="prog"></div>
+  </div></section>
+
+  <section class="mode" id="m-quiz"><div class="qbox" id="quiz"></div></section>
+
+  <p class="foot">Pay and tax figures are the 2026/27 UK rates; check them each April. Progress and best scores are saved in this browser only. Voices by ElevenLabs.</p>
+</main>
+
+<script>
+{
+const T={sales:{n:"Sales & matching",c:"#0f9d8a"},fees:{n:"Fees",c:"#e8661a"},exp:{n:"Expenses",c:"#2f6fde"},vat:{n:"VAT",c:"#d93f49"},pay:{n:"Payroll",c:"#7356cf"},month:{n:"Month-end",c:"#b97f00"}};
+const RAW=[
+["sales", "📒", "Bookkeeping", "বুককিপিং / হিসাব রাখা", "Recording every pound that comes in and goes out, in the right place, so the numbers are true.", "We keep your books clean every month, so year end becomes a non-event.", "ব্যবসার প্রতিটি টাকা আসা আর যাওয়ার সঠিক জায়গায় সঠিক হিসাব রাখা, যাতে সংখ্যাগুলো সত্যি হয়।"],
+["sales", "🧩", "Reconciliation", "হিসাব মেলানো", "Matching two records, such as the till's sales and the money in the bank, and explaining any difference.", "Reconcile just means match and explain.", "দুইটা হিসাব মিলিয়ে দেখা, যেমন টিলের বিক্রি আর ব্যাংকে আসা টাকা। কোনো পার্থক্য থাকলে তার কারণ বের করা।"],
+["sales", "⚖️", "Gross vs net", "গ্রস বনাম নেট", "Gross is the full sale before fees. Net is what reaches the bank after fees. Income is always booked gross, with fees as an expense.", "Gross, not net: your real sales, and your fees in plain sight.", "গ্রস = ফি কাটার আগের পুরো বিক্রি। নেট = ফি কাটার পরে ব্যাংকে যা আসে। আয় সবসময় গ্রস ধরে লিখি, আর ফি আলাদা খরচ হিসেবে।"],
+["sales", "🚪", "Clearing account", "ক্লিয়ারিং অ্যাকাউন্ট (ওয়েটিং রুম)", "A waiting room for money that has been earned but hasn't reached the bank yet. When it's empty, everything has arrived.", "Think of it as a waiting room. If something sits there a week, we ask you about it.", "একটা 'ওয়েটিং রুম'। টাকা আয় হয়েছে কিন্তু এখনো ব্যাংকে আসেনি, ততক্ষণ এখানে থাকে। খালি হলে বুঝবেন সব টাকা পৌঁছে গেছে।"],
+["sales", "💸", "Payout", "পেআউট", "The money a card company or delivery app sends to the bank, after taking its fees.", "SumUp paid £935.75, which is your £950 of card sales less a £14.25 fee.", "কার্ড কোম্পানি বা ডেলিভারি অ্যাপ নিজেদের ফি কেটে নিয়ে যে টাকা ব্যাংকে পাঠায়।"],
+["sales", "🔒", "End of day (register closure)", "দিনের শেষে টিল বন্ধ করা", "Closing the till at night. The POS then sends that day's sales into Xero as one invoice, split by card and cash.", "Every time you close the till, your sales go into Xero automatically.", "দিনের শেষে টিল বন্ধ করা। তখন POS ওই দিনের পুরো বিক্রি একটা ইনভয়েস হিসেবে Xero-তে পাঠায়, কার্ড আর ক্যাশ আলাদা করে।"],
+["sales", "🔌", "Integration", "ইন্টিগ্রেশন / সংযোগ", "The link between the POS and Xero or QuickBooks that sends sales across without typing.", "The integration moves the data. We make sure the data is right.", "POS আর Xero-র মধ্যে সংযোগ। ডেটা নিজে থেকে চলে যায়, কিন্তু সেটা ঠিক আছে কিনা, সেটা আমরা দেখি।"],
+["sales", "🗺️", "Mapping", "ম্যাপিং", "Telling the integration which Xero account each sales category, payment type and VAT rate should go to.", "We map your till properly on day one, so every sale lands in the right place.", "POS-এর প্রতিটি বিক্রির ক্যাটাগরি, পেমেন্ট টাইপ আর VAT রেট Xero-র কোন অ্যাকাউন্টে যাবে, সেটা ঠিক করে দেওয়া।"],
+["fees", "💳", "Card processing fees", "কার্ড প্রসেসিং ফি", "What SumUp, Square or Zettle keep for handling card payments. It is a business expense.", "Most owners are surprised when they see a year of card fees as one number.", "কার্ডে পেমেন্ট নেওয়ার জন্য SumUp বা Square যে ফি কেটে রাখে। এটা ব্যবসার খরচ।"],
+["fees", "🏦", "Bank charges", "ব্যাংক চার্জ", "The bank's own fees: a monthly fee, fees for paying in cash. Kept separate from card fees.", "Card fees show what taking payments costs; bank charges show what your account costs.", "ব্যাংক অ্যাকাউন্ট চালানোর নিজস্ব খরচ, যেমন মাসিক ফি বা ক্যাশ জমা দেওয়ার ফি। কার্ড ফি থেকে আলাদা রাখি।"],
+["fees", "🪙", "Cash over / short", "ক্যাশ বেশি / কম", "The difference between the cash the till says you took and the cash actually banked.", "Small differences are normal. Over £20 in a week, we tell you.", "টিলে যত ক্যাশ থাকার কথা আর ব্যাংকে যত জমা হলো, তার পার্থক্য। সপ্তাহে £20-এর বেশি হলে মালিককে জানাতে হবে।"],
+["fees", "🛵", "Delivery commission", "ডেলিভারি কমিশন", "What Deliveroo, Uber Eats or Just Eat keep from each order before paying out.", "You'll finally see what the platforms charge you, as one clear number.", "Deliveroo, Uber Eats বা Just Eat প্রতিটি অর্ডার থেকে যে কমিশন কেটে নেয়। এটাও খরচ।"],
+["exp", "📸", "Receipt capture", "রসিদ সংগ্রহ", "Snapping a photo of a receipt or forwarding the email. AI reads it, then a person checks it before it's posted.", "You don't type anything, and nothing goes in without a human check.", "রসিদের ছবি তোলা বা ইমেইল ফরোয়ার্ড করা। AI পড়ে নেয়, তারপর একজন মানুষ চেক করে পোস্ট করে।"],
+["exp", "🔁", "Supplier rule", "সাপ্লায়ার রুল", "A saved rule for a regular supplier (milk, coffee, rent) that sets the account and VAT rate automatically.", "After the first month, most of your receipts just need a quick approval.", "নিয়মিত সাপ্লায়ারের (দুধ, কফি, ভাড়া) জন্য আগে থেকে ঠিক করা নিয়ম: কোন অ্যাকাউন্ট, কোন VAT রেট। এতে কাজ দ্রুত হয়।"],
+["exp", "👯", "Duplicate", "ডুপ্লিকেট / একই বিল দুইবার", "The same bill arriving twice, once by email and once as a photo. Counting it twice overstates costs.", "We catch the same invoice coming in twice.", "একই বিল দুইবার আসা, একবার ইমেইলে, একবার ছবিতে। দুইবার লিখলে খরচ বেশি দেখাবে।"],
+["exp", "🛍️", "Personal spending", "ব্যক্তিগত খরচ", "Something the owner bought for themselves. It is flagged to the owner, not posted as a business cost.", "Anything that looks personal, we ask you about rather than post.", "মালিকের ব্যক্তিগত কেনাকাটা। ব্যবসার খরচে না লিখে মালিককে জিজ্ঞেস করি।"],
+["exp", "🧾", "Unpaid bill", "অপরিশোধিত বিল", "A supplier bill that has arrived but hasn't been paid yet. It shows what the business owes.", "Bills not yet paid stay listed, so you always know what you owe.", "যে বিল এসেছে কিন্তু এখনো টাকা দেওয়া হয়নি। এতে বোঝা যায় ব্যবসার কত টাকা দেনা আছে।"],
+["vat", "☕", "Standard-rated vs zero-rated", "২০% VAT বনাম ০% VAT", "Standard-rated items carry 20% VAT, like coffee. Zero-rated items carry 0%, like cold takeaway sandwiches, milk and bread.", "A coffee is always 20%. A cold sandwich to take away is zero.", "স্ট্যান্ডার্ড-রেটেড = 20% VAT (যেমন কফি)। জিরো-রেটেড = 0% VAT (যেমন ঠান্ডা স্যান্ডউইচ নিয়ে যাওয়া, দুধ, রুটি)।"],
+["vat", "🍽️", "Eat in or take away?", "বসে খাবেন না নিয়ে যাবেন?", "Eaten on the premises, or hot, means 20% VAT. Cold food taken away is usually 0%. The till must record which.", "Wrong VAT settings in the till are the biggest risk on a café's VAT return.", "দোকানে বসে খেলে বা গরম খাবার হলে 20% VAT। ঠান্ডা খাবার নিয়ে গেলে সাধারণত 0%। তাই টিলে সঠিক বাটন চাপা জরুরি।"],
+["vat", "📤", "VAT return (MTD)", "VAT রিটার্ন", "Telling HMRC how much VAT is owed for the period, filed through Making Tax Digital software. Due 1 month and 7 days after the period ends.", "We prepare it early, your accountant checks it, you approve, then it's filed.", "প্রতি পিরিয়ডে HMRC-কে VAT-এর হিসাব জমা দেওয়া, Making Tax Digital সফটওয়্যার দিয়ে। শেষ সময়: পিরিয়ড শেষের ১ মাস ৭ দিন পর।"],
+["pay", "👥", "Pay run", "পে রান / বেতন চালানো", "One round of working out and paying staff wages, weekly or monthly.", "Send us hours, tips and absences by the cut-off. We do the rest.", "স্টাফদের বেতন হিসাব করে দেওয়ার প্রতিটি পর্ব, সাপ্তাহিক বা মাসিক।"],
+["pay", "⏱️", "National Living Wage", "ন্যূনতম মজুরি", "The legal minimum hourly pay for staff aged 21 and over: £12.71 in 2026/27. Tips don't count towards it.", "Tips don't count towards minimum wage. Owners often don't know that.", "২১ বছর বা তার বেশি বয়সী স্টাফদের আইনি ন্যূনতম মজুরি, ঘণ্টায় £12.71 (2026/27)। টিপস এর মধ্যে ধরা হয় না।"],
+["pay", "📡", "RTI & FPS", "RTI ও FPS", "Real Time Information: every time staff are paid, a Full Payment Submission goes to HMRC on or before payday.", "You don't need to remember it. You just need to know we file it on time.", "প্রতিবার বেতন দেওয়ার দিন বা তার আগে HMRC-কে বেতনের রিপোর্ট (FPS) পাঠাতে হয়। এই ব্যবস্থাকে RTI বলে।"],
+["pay", "🎁", "EPS & Employment Allowance", "EPS ও এমপ্লয়মেন্ট অ্যালাউন্স", "The Employment Allowance takes up to £10,500 a year off employer National Insurance. It is claimed on an EPS by the 19th of the next month.", "Most small cafés can claim money off their employer NI.", "Employment Allowance-এ বছরে £10,500 পর্যন্ত employer NI কম দিতে হয়। এটা দাবি করতে পরের মাসের ১৯ তারিখের মধ্যে EPS পাঠাতে হয়।"],
+["pay", "🐷", "Pension auto-enrolment", "পেনশনে স্বয়ংক্রিয় যুক্ত করা", "Staff earning over £10,000 a year must be put into a workplace pension, and the employer pays in too.", "We check every new starter and enrol them if needed.", "বছরে £10,000-এর বেশি আয় করা স্টাফকে কর্মক্ষেত্রের পেনশনে যুক্ত করতে হয়, আর মালিককেও টাকা দিতে হয়।"],
+["pay", "👋", "Starters & leavers (P45)", "নতুন ও চলে যাওয়া স্টাফ (P45)", "A leaver gets a P45 showing pay and tax so far. A starter hands theirs in, or fills in HMRC's starter checklist.", "New starter? Send us their P45 or starter checklist before their first payday.", "চাকরি ছাড়লে স্টাফ P45 পায়, তাতে এ বছরের বেতন আর ট্যাক্স লেখা থাকে। নতুন চাকরিতে এটা দিলে ট্যাক্স ঠিকভাবে হয়।"],
+["pay", "🫙", "Tips & tronc", "টিপস ও ট্রঙ্ক", "By law all tips go to staff, paid by the end of the next month. Until then they sit in 'tips payable'. A tronc is a tips pot run by an independent troncmaster.", "Tips belong to the team, and your books show it.", "আইন অনুযায়ী সব টিপস স্টাফদের দিতে হবে, পরের মাসের শেষের মধ্যে। ততক্ষণ 'tips payable'-এ থাকে। টাকাটা টিমের, ব্যবসার নয়।"],
+["pay", "🏖️", "Holiday pay", "ছুটির বেতন", "Fixed-hours staff get 5.6 weeks a year, pro-rata. Irregular-hours staff build up holiday at 12.07% of hours worked.", "Part-timers and weekend casuals: we work out holiday for both.", "নির্দিষ্ট সময়ের স্টাফ: বছরে ৫.৬ সপ্তাহ (কাজের অনুপাতে)। অনিয়মিত সময়ের স্টাফ: কাজের ঘণ্টার 12.07% হারে ছুটি জমে।"],
+["month", "📅", "Month-end close", "মাস শেষের হিসাব বন্ধ", "Finishing the month's books by working day 7: bank matched, bills approved, payroll posted, then the month is locked.", "Every month is closed by the seventh working day.", "প্রতি মাসের হিসাব ৭ম কর্মদিবসের মধ্যে শেষ করা: ব্যাংক মেলানো, বিল ও বেতন ঠিক করে মাসটা লক করা।"],
+["month", "📊", "One-page profit report", "এক পাতার লাভের রিপোর্ট", "A monthly page for the owner: sales, gross profit %, wages as % of sales, net profit, cash in the bank, VAT and PAYE coming up.", "One page, every month, so you always know where you stand.", "মালিকের জন্য মাসিক এক পাতা: বিক্রি, গ্রস প্রফিট %, বেতন %, নেট প্রফিট, ব্যাংকে কত টাকা, আর সামনে কত VAT/PAYE দিতে হবে।"],
+["month", "🎓", "Year-end handover", "বছর শেষের হস্তান্তর", "Giving the accountant a clean, fully reconciled file. They prepare and file the accounts and tax return.", "Your accountant gets a clean file, so they review instead of redo.", "বছর শেষে অ্যাকাউন্ট্যান্টকে পরিষ্কার, মেলানো হিসাবের ফাইল দেওয়া। উনি অ্যাকাউন্টস আর ট্যাক্স রিটার্ন জমা দেন।"]
+];
+const C=RAW.map((r,i)=>({i,id:"c"+i,t:r[0],pic:r[1],en:r[2],bnw:r[3],mean:r[4],say:r[5],bn:r[6],a:String(i+1).padStart(2,"0")}));
+const AUDIO=true;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let known=store.get("bk-known",{}),best=store.get("bk-best",{});
+let mode="learn",topic="all",order=C.slice(),only=null;
+
+/* audio */
+const player=new Audio();let playingBtn=null;
+const PLAY='<svg viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg>',STOP='<svg viewBox="0 0 16 16"><rect x="3" y="3" width="10" height="10" rx="2"/></svg>';
+function stopAudio(){player.pause();if(playingBtn){playingBtn.classList.remove("on");playingBtn.innerHTML=PLAY+playingBtn.dataset.label}playingBtn=null}
+player.addEventListener("ended",stopAudio);
+function play(btn){
+  if(playingBtn===btn){stopAudio();return}
+  stopAudio();
+  const c=C[+btn.dataset.i],lang=btn.dataset.lang;
+  if(AUDIO){player.src=`/training-audio/${lang}/${c.a}.mp3`;player.play().catch(()=>speak(c,lang))}else speak(c,lang);
+  playingBtn=btn;btn.classList.add("on");btn.innerHTML=STOP+btn.dataset.label;
+}
+function speak(c,lang){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(lang==="bn"?c.bnw+"। "+c.bn:c.en+". "+c.mean);u.lang=lang==="bn"?"bn-BD":"en-GB";u.onend=stopAudio;speechSynthesis.speak(u)}catch(e){stopAudio()}}
+const plays=c=>`<div class="plays"><button class="play" data-i="${c.i}" data-lang="en" data-label="English">${PLAY}English</button><button class="play bn" data-i="${c.i}" data-lang="bn" data-label="বাংলা">${PLAY}বাংলা</button></div>`;
+
+/* cards */
+const face=c=>`<div class="card${known[c.id]?" known":""}" role="button" tabindex="0" data-id="${c.id}" style="--c:${T[c.t].c}" aria-label="${esc(c.en)}. Tap to flip.">
+<div class="inner"><div class="face front"><div class="pic"><span class="tag">${T[c.t].n}</span><div class="win" aria-hidden="true">${c.pic}</div></div>
+<div class="words"><p class="word">${esc(c.en)}</p><div class="bnw bn">${esc(c.bnw)}</div></div></div>
+<div class="face back"><h3>${esc(c.en)}</h3><p>${esc(c.mean)}</p><p class="say">“${esc(c.say)}”</p><div class="bnbox bn">${esc(c.bn)}</div>${plays(c)}</div></div></div>`;
+
+const pool=()=>(only||order).filter(c=>topic==="all"||c.t===topic);
+function bar(){
+  const k=C.filter(c=>known[c.id]).length;
+  let h=`<button class="chip" data-t="all" aria-pressed="${topic==="all"&&!only}">All ${C.length}</button>`+Object.entries(T).map(([k2,v])=>`<button class="chip" data-t="${k2}" style="--c:${v.c}" aria-pressed="${topic===k2}">${v.n}</button>`).join("");
+  if(only)h+=`<button class="chip" data-t="missed" style="--c:#2b1d14" aria-pressed="true">My missed words (${only.length})</button>`;
+  if(mode!=="quiz")h+=`<span class="spacer"></span><span class="count">${k} of ${C.length} known</span>`;
+  if(mode==="learn")h+=`<button class="btn" id="shuf">Shuffle</button>`;
+  $("bar").innerHTML=h;
+}
+function renderLearn(){$("grid").innerHTML=pool().map(face).join("")||`<p class="sub">No cards here.</p>`}
+
+/* practise */
+let queue=[],pi=0;
+function startPrac(){queue=pool().filter(c=>!known[c.id]);if(!queue.length)queue=pool().slice();pi=0;showPrac()}
+function showPrac(){
+  const c=queue[pi];$("know").disabled=$("again").disabled=!c;
+  if(!c){$("pcard").innerHTML=`<div class="end"><h2>Well done!</h2><p class="sub" style="margin:0 auto 12px">You went through every card in this set. Ready for the quiz?</p><button class="btn main" data-go="quiz">Take the quiz</button></div>`;$("prog").textContent="";return}
+  $("pcard").innerHTML=face(c);$("prog").textContent=`Card ${pi+1} of ${queue.length} · tap the card to check`;
+}
+
+/* quiz */
+const KINDS=[
+  {k:"meanToWord",label:"Which word is this?",q:c=>esc(c.mean),opt:c=>esc(c.en)},
+  {k:"bnToWord",label:"বাংলা থেকে: কোন শব্দ?",q:c=>esc(c.bn),opt:c=>esc(c.en),bn:true},
+  {k:"wordToMean",label:"What does this mean?",q:c=>esc(c.en),opt:c=>esc(c.mean)},
+  {k:"sayToWord",label:"You say this to an owner. Which word are you explaining?",q:c=>"“"+esc(c.say)+"”",opt:c=>esc(c.en)}
+];
+let Q=null,len=10;
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function quizSetup(){
+  const n=pool().length,b=best[topic+(only?"-missed":"")];
+  $("quiz").innerHTML=`<div class="setup"><h2>Quiz time</h2><p class="sub" style="margin:0">Four kinds of question: English meanings, Bengali summaries, and lines you'd say to a café owner. 10 points for each right answer, plus 5 bonus points when you get 3 or more in a row.</p>
+  <h3>How many questions?</h3><div class="bar" style="margin:0">${[10,20,n].filter((v,i,a)=>v<=n&&a.indexOf(v)===i).map(v=>`<button class="chip" data-len="${v}" aria-pressed="${v===Math.min(len,n)}">${v===n?"All "+n:v}</button>`).join("")}</div>
+  <h3>Topic</h3><p class="sub" style="margin:0">Pick a topic with the buttons above. Now: <strong>${only?"My missed words":topic==="all"?"All topics":T[topic].n}</strong> (${n} words)</p>
+  ${b?`<p class="sub" style="margin:12px 0 0">Your best here: <strong>${b.c} of ${b.n} correct</strong>, ${b.p} points.</p>`:""}
+  <div class="row" style="justify-content:flex-start"><button class="btn main" id="qstart"${n<4?" disabled":""}>Start quiz</button></div>${n<4?`<p class="sub">Pick a bigger set: a quiz needs at least 4 words.</p>`:""}</div>`;
+}
+function quizStart(){
+  const p=pool(),n=Math.min(len,p.length);
+  const qs=shuffle(p).slice(0,n).map(c=>{
+    const kind=KINDS[Math.floor(Math.random()*KINDS.length)];
+    const same=shuffle(C.filter(x=>x.t===c.t&&x.id!==c.id)),other=shuffle(C.filter(x=>x.t!==c.t));
+    const wrong=same.slice(0,2).concat(other).slice(0,3);
+    return {c,kind,opts:shuffle([c].concat(wrong))};
+  });
+  Q={qs,i:0,right:0,pts:0,streak:0,missed:[],done:false};showQ();
+}
+function showQ(){
+  const q=Q.qs[Q.i],c=q.c,col=T[c.t].c,n=Q.qs.length;
+  $("quiz").innerHTML=`<div class="hud"><span class="pill">Question ${Q.i+1} of ${n}</span><span class="pill">${Q.pts} points</span><span class="pill">${Q.streak>=3?"🔥 ":""}Streak ${Q.streak}</span></div>
+  <div class="meter"><i style="width:${Q.i/n*100}%"></i></div>
+  <div class="q" style="--c:${col}"><div class="win" aria-hidden="true">${q.kind.k==="wordToMean"||q.kind.k==="sayToWord"?c.pic:"❓"}</div><div><p class="qkind ${q.kind.bn?"bn":""}">${q.kind.label}</p><p class="qtext ${q.kind.bn?"bn":""}">${q.kind.q(c)}</p></div></div>
+  <div class="opts">${q.opts.map((o,k)=>`<button class="opt" data-k="${k}"><b>${"ABCD"[k]}</b>${q.kind.opt(o)}</button>`).join("")}</div>
+  <div class="fb" id="fb"></div>`;
+}
+function answer(k){
+  const q=Q.qs[Q.i];if(q.done)return;q.done=true;
+  const ok=q.opts[k].id===q.c.id,btns=[...document.querySelectorAll(".opt")];
+  btns.forEach((b,j)=>{b.disabled=true;if(q.opts[j].id===q.c.id)b.classList.add("right");else if(j===k)b.classList.add("wrong")});
+  let gain=0;
+  if(ok){Q.right++;Q.streak++;gain=10+(Q.streak>=3?5:0);Q.pts+=gain}else{Q.streak=0;Q.missed.push(q.c)}
+  const c=q.c,last=Q.i===Q.qs.length-1;
+  const fb=$("fb");fb.className="fb on "+(ok?"good":"bad");fb.style.setProperty("--c",T[c.t].c);
+  fb.innerHTML=`<strong>${ok?(gain>10?"Brilliant! +"+gain+" with streak bonus":"Correct! +10"):"Not quite."}</strong>
+  <p style="margin:6px 0 0"><b>${esc(c.en)}</b>: ${esc(c.mean)}</p><p class="bn" style="margin:6px 0 0">${esc(c.bn)}</p>${plays(c)}
+  <div class="row" style="justify-content:flex-start"><button class="btn main" id="qnext">${last?"See my score":"Next question"}</button></div>`;
+  $("qnext").focus({preventScroll:true});
+}
+function quizEnd(){
+  const n=Q.qs.length,pc=Math.round(Q.right/n*100),stars=pc>=90?3:pc>=70?2:pc>=50?1:0;
+  const key=topic+(only?"-missed":""),b=best[key];
+  const isBest=!b||Q.pts>b.p;if(isBest){best[key]={c:Q.right,n,p:Q.pts};store.set("bk-best",best)}
+  const msg=pc===100?"Perfect! You're ready to explain this to any café owner.":pc>=70?"Great work. Have another look at the words you missed.":pc>=50?"Good start. Practise the missed words, then try again.":"Keep going. Learn the cards first, then come back.";
+  $("quiz").innerHTML=`<div class="end"><p class="sub" style="margin:0 auto">Your score</p><div class="big">${Q.right} / ${n}</div>
+  <div class="stars" aria-label="${stars} of 3 stars">${"★".repeat(stars)}${"☆".repeat(3-stars)}</div>
+  <p style="font-weight:800;margin:0">${Q.pts} points${isBest?" · new best!":""}</p><p class="sub" style="margin:8px auto">${msg}</p>
+  ${Q.missed.length?`<p style="font-weight:800;margin:14px 0 0">Words to practise</p><div class="missed">${Q.missed.map(c=>`<span>${c.pic} ${esc(c.en)}</span>`).join("")}</div>`:""}
+  <div class="row">${Q.missed.length?`<button class="btn" id="learnMissed">Learn my missed words</button>`:""}<button class="btn main" id="qagain">Play again</button></div></div>`;
+  Q.missedFinal=Q.missed.slice();
+}
+
+/* mode + events */
+function setMode(m){
+  mode=m;stopAudio();
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.m===m));
+  document.querySelectorAll(".mode").forEach(s=>s.classList.toggle("on",s.id==="m-"+m));
+  $("intro").textContent=m==="learn"?"Tap a card to flip it. The back explains the word in plain English, gives a line to say to a café owner, and a short Bengali summary. Press English or বাংলা to hear it.":m==="prac"?"One card at a time. Say what it means out loud, tap to check, then choose I know it or Again.":"Test yourself and get a score. Pick a topic above, choose how many questions, and go.";
+  bar();if(m==="learn")renderLearn();if(m==="prac")startPrac();if(m==="quiz"){Q=null;quizSetup()}
+  if(location.hash.slice(1)!==m)history.replaceState(null,"","#"+m);
+}
+function refresh(){bar();if(mode==="learn")renderLearn();if(mode==="prac")startPrac();if(mode==="quiz"){Q=null;quizSetup()}}
+
+document.addEventListener("click",e=>{
+  const t=e.target;
+  const pl=t.closest(".play");if(pl){e.stopPropagation();play(pl);return}
+  const tab=t.closest(".tab");if(tab){setMode(tab.dataset.m);return}
+  const go=t.closest("[data-go]");if(go){setMode(go.dataset.go);return}
+  const ch=t.closest(".chip[data-t]");if(ch){if(ch.dataset.t!=="missed"){only=null;topic=ch.dataset.t}refresh();return}
+  const ln=t.closest(".chip[data-len]");if(ln){len=+ln.dataset.len;quizSetup();return}
+  if(t.closest("#shuf")){order=shuffle(C);renderLearn();return}
+  if(t.closest("#know")){const c=queue[pi];if(c){known[c.id]=1;store.set("bk-known",known)}pi++;stopAudio();bar();showPrac();return}
+  if(t.closest("#again")){const c=queue[pi];if(c)queue.push(c);pi++;stopAudio();showPrac();return}
+  if(t.closest("#qstart")){quizStart();return}
+  const op=t.closest(".opt");if(op){answer(+op.dataset.k);return}
+  if(t.closest("#qnext")){stopAudio();if(Q.i<Q.qs.length-1){Q.i++;showQ()}else quizEnd();return}
+  if(t.closest("#qagain")){quizStart();return}
+  if(t.closest("#learnMissed")){only=Q.missedFinal;topic="all";setMode("learn");return}
+  const card=t.closest(".card");if(card)card.classList.toggle("flip");
+});
+document.addEventListener("keydown",e=>{
+  const card=e.target.closest&&e.target.closest(".card");
+  if(card&&(e.key==="Enter"||e.key===" ")&&e.target===card){e.preventDefault();card.classList.toggle("flip");return}
+  if(mode==="quiz"&&Q&&!Q.qs[Q.i].done&&/^[1-4a-dA-D]$/.test(e.key)){const k="1234".includes(e.key)?+e.key-1:"abcd".indexOf(e.key.toLowerCase());answer(k)}
+});
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(["learn","prac","quiz"].includes(h)&&h!==mode)setMode(h)});
+const h0=location.hash.slice(1);setMode(["learn","prac","quiz"].includes(h0)?h0:"learn");
+}
+</script>
+</body>
+</html>
