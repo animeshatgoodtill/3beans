@@ -41,6 +41,9 @@ h2{font-size:28px;line-height:1.1;margin:6px 0 4px}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .step{min-height:64px;border-radius:18px;background:var(--pc);color:#fff;font-weight:800;font-size:19px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05;box-shadow:0 4px 0 color-mix(in srgb,var(--pc) 70%,#000)}
 .step span{font-size:24px}
+small.en,.en{display:block;font:700 12px/1.1 system-ui,sans-serif;letter-spacing:.02em;opacity:.85;margin-top:2px}
+.big-btn,.back,.peek{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05}
+.big-btn small.en{font-size:12.5px}
 .step:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--pc) 70%,#000)}
 .lockmsg{position:absolute;inset:0;display:grid;place-items:center;font-size:44px;pointer-events:none}
 .silly-cta{width:100%;min-height:76px;border-radius:24px;background:linear-gradient(90deg,#ff7a59,#f5a623,#8e6cf0,#3fa7f5);color:#fff;font-weight:800;font-size:24px;box-shadow:0 6px 0 #5b4aa0;margin-bottom:16px}
@@ -114,58 +117,59 @@ dialog p{margin:6px 0;color:var(--soft);font-size:15px}
   <header>
     <div class="logo">🦢 বর্ণ খেলা</div>
     <div class="stars" id="starCount">★ 0</div>
+    <button class="icon" id="helperBtn" aria-label="English helper voice on or off">🔊</button>
     <button class="icon" id="parentBtn" aria-label="Grown-up settings">⚙️</button>
   </header>
 
   <!-- HOME -->
   <section class="view on" id="home">
-    <h2>চলো খেলি!</h2>
+    <h2>চলো খেলি! <small class="en" style="display:inline;font-size:15px;color:var(--soft)">Let's play!</small></h2>
     <p class="sub">Learn a few letters, trace them, then read silly sentences made only from letters you know.</p>
     <div id="packs"></div>
-    <button class="silly-cta" id="sillyBtn">🎲 মজার বাক্য</button>
-    <div class="next-card">আরও অক্ষর আসছে… 🚀<br><small>Next: ি ে ু, then more letters</small></div>
+    <button class="silly-cta" id="sillyBtn">🎲 মজার বাক্য<small class="en" style="font-size:14px">Silly sentences</small></button>
+    <div class="next-card">আরও অক্ষর আসছে… 🚀 <small class="en" style="display:inline">More letters coming</small><br><small>Next: ি ে ু, then more letters</small></div>
   </section>
 
   <!-- MEET -->
   <section class="view" id="meet">
-    <div class="bar"><button class="back" data-home>← বাড়ি</button><span class="pill" id="meetPack"></span></div>
+    <div class="bar"><button class="back" data-home data-say="Home">← বাড়ি<small class="en">Home</small></button><span class="pill" id="meetPack"></span></div>
     <div class="meet" id="meetCard"></div>
     <div class="row">
-      <button class="big-btn ghost" id="meetPrev">←</button>
-      <button class="big-btn" id="meetSay">🔊 শোনো</button>
-      <button class="big-btn ghost" id="meetNext">→</button>
+      <button class="big-btn ghost" id="meetPrev" data-say="Back">←<small class="en">Back</small></button>
+      <button class="big-btn" id="meetSay">🔊 শোনো<small class="en">Listen</small></button>
+      <button class="big-btn ghost" id="meetNext" data-say="Next letter">→<small class="en">Next</small></button>
     </div>
-    <div class="row"><button class="big-btn" id="meetTrace">✍️ লেখো</button></div>
+    <div class="row"><button class="big-btn" id="meetTrace">✍️ লেখো<small class="en">Write it</small></button></div>
   </section>
 
   <!-- TRACE -->
   <section class="view" id="trace">
-    <div class="bar"><button class="back" data-home>← বাড়ি</button><span class="pill" id="strokeInfo"></span></div>
+    <div class="bar"><button class="back" data-home data-say="Home">← বাড়ি<small class="en">Home</small></button><span class="pill" id="strokeInfo"></span></div>
     <div class="tr-head" id="trHead"></div>
     <div class="board" id="board">
       <canvas id="cv"></canvas>
       <div class="hint" id="hint"></div>
       <div class="result" id="result"><div><div class="s" id="resStars"></div><div class="w" id="resWord"></div>
-        <div class="row"><button class="big-btn ghost" id="again">↺ আবার</button><button class="big-btn" id="nextLetter">পরের →</button></div></div></div>
+        <div class="row"><button class="big-btn ghost" id="again" data-say="Again">↺ আবার<small class="en">Again</small></button><button class="big-btn" id="nextLetter" data-say="Next">পরের →<small class="en">Next</small></button></div></div></div>
     </div>
     <div class="row">
-      <button class="big-btn ghost" id="watch">▶ দেখো</button>
-      <button class="big-btn ghost" id="clear">↺ মোছো</button>
+      <button class="big-btn ghost" id="watch">▶ দেখো<small class="en">Watch</small></button>
+      <button class="big-btn ghost" id="clear" data-say="Start again">↺ মোছো<small class="en">Clear</small></button>
     </div>
   </section>
 
   <!-- READ -->
   <section class="view" id="read">
-    <div class="bar"><button class="back" data-home>← বাড়ি</button><span class="pill" id="readInfo"></span></div>
+    <div class="bar"><button class="back" data-home data-say="Home">← বাড়ি<small class="en">Home</small></button><span class="pill" id="readInfo"></span></div>
     <div class="sent">
       <div class="words-line" id="sentence"></div>
       <div class="split" id="split"></div>
       <div class="reveal" id="reveal"></div>
     </div>
     <div class="row">
-      <button class="big-btn ghost" id="readPrev">←</button>
-      <button class="big-btn" id="readSay">🔊</button>
-      <button class="big-btn ghost" id="readNext">→</button>
+      <button class="big-btn ghost" id="readPrev" data-say="Back">←<small class="en">Back</small></button>
+      <button class="big-btn" id="readSay">🔊<small class="en">Listen</small></button>
+      <button class="big-btn ghost" id="readNext" data-say="Next one">→<small class="en">Next</small></button>
     </div>
     <div class="count" id="wordCount"></div>
     <div class="vocab" id="vocab"></div>
@@ -175,9 +179,11 @@ dialog p{margin:6px 0;color:var(--soft);font-size:15px}
 <dialog id="parent">
   <h3>For grown-ups</h3>
   <p><b>How it works:</b> letters come in small packs. Each pack has Meet → Trace → Read. Read only shows words built from letters already learned, so your child can genuinely read every sentence. Tap a word to hear it and see its letters. Tap “দেখি” to check with a picture.</p>
-  <p><b>Tracing:</b> start at the green dot, follow the arrows to the star. Knot first, the body, the down-line, and the top line (মাত্রা) last.</p>
+  <p><b>Tracing:</b> start at the green dot, follow the arrows to the star. Letters start at the top or the down-line and finish in the little knot; the top line (মাত্রা) goes last, left to right.</p>
+  <p><b>Buttons:</b> every Bengali button has its English meaning underneath, and the helper voice says it when tapped.</p>
   <label><input type="checkbox" id="optEasy" checked> Easy tracing (wider track, for little fingers)</label>
   <label><input type="checkbox" id="optAll"> Open all packs</label>
+  <label><input type="checkbox" id="optHelper" checked> English helper voice (calm British man)</label>
   <p id="voiceNote"></p>
   <div class="row"><button class="big-btn ghost" id="resetBtn">Reset progress</button><button class="big-btn" id="closeParent">Done</button></div>
 </dialog>
@@ -186,27 +192,29 @@ dialog p{margin:6px 0;color:var(--soft);font-size:15px}
 
 <script>
 "use strict";
+const pick=a=>a[Math.floor(Math.random()*a.length)];
 /* ───────────── Stroke data ─────────────
    100×100 box, matra (top line) at y=22, letters sit on y≈72.
-   Order: start at the knot (little circle) if there is one, body before the down-line, matra last.
+   Flow (সঠিক প্রবাহ): start at the top / the down-line, finish in the little knot, matra (left→right) last.
+   Sources: teachers.gov.bd (ব: start at top, come down, corner, go up); Prothom Alo (ল: straight line first, then curls from the right).
    "dot:x,y" is a tap. */
 const STROKES = {
- "ক":["M66,52 C72,51 75,44 71,38 C65,30 48,29 38,37 L25,48 C36,51 45,58 51,71","M51,22 L51,71","M21,22 L79,22"],
- "ব":["M61,31 L31,46 C44,49 54,58 61,71","M62,22 L62,71","M27,22 L73,22"],
- "র":["M61,31 L31,46 C44,49 54,58 61,71","M62,22 L62,71","M27,22 L73,22","dot:38,67"],
- "ল":["M42,52 C41,58 28,59 25,48 C22,38 29,31 38,31 C46,32 50,37 49,43 C50,35 55,31 60,31 C64,31 66,33 68,36","M68,22 L68,71","M19,22 L81,22"],
- "জ":["M20,34 C20,52 31,64 46,64 C57,64 63,57 61,50 C59,44 52,45 47,47 C40,49 34,44 36,36 C37,30 42,25 46,22","M46,23 C50,32 60,38 70,37 C74,37 77,36 80,35 C75,46 73,60 78,72","M13,22 L87,22"],
+ "ক":["M51,22 L51,71 C45,58 36,51 25,48 L38,37 C48,29 65,30 71,38 C75,44 72,51 66,52","M21,22 L79,22"],
+ "ব":["M62,22 L62,71 C54,58 44,49 31,46 L61,31","M27,22 L73,22"],
+ "র":["M62,22 L62,71 C54,58 44,49 31,46 L61,31","M27,22 L73,22","dot:38,67"],
+ "ল":["M68,22 L68,71","M68,36 C66,33 64,31 60,31 C55,31 50,35 49,43 C50,37 46,32 38,31 C29,31 22,38 25,48 C28,59 41,58 42,52","M19,22 L81,22"],
+ "জ":["M46,22 C42,25 37,30 36,36 C34,44 40,49 47,47 C52,45 59,44 61,50 C63,57 57,64 46,64 C31,64 20,52 20,34","M46,23 C50,32 60,38 70,37 C74,37 77,36 80,35 C75,46 73,60 78,72","M13,22 L87,22"],
  "ম":["M36,24 C42,32 42,44 38,53 C44,47 54,50 61,70","M61,22 L61,71","M27,22 L73,22"],
- "ন":["M36,51 C31,49 31,41 40,38 C50,35 58,39 62,48","M62,22 L62,71","M25,22 L75,22"],
- "ধ":["M45,22 C43,15 33,16 31,23 C30,30 38,34 47,34 L60,27","M60,28 L31,48 C42,50 52,58 60,71","M60,14 L60,71","M60,22 L72,22"],
- "গ":["M38,59 C46,55 51,49 50,42 C49,36 42,34 37,37 C33,39 30,42 28,40 C26,36 28,27 34,23 C42,18 54,20 59,28 L63,37","M64,14 L64,71","M64,22 L76,22"],
- "অ":["M20,36 C23,52 33,63 46,63 C55,63 61,55 61,47 C61,38 54,33 47,33 C42,33 39,36 40,39 C41,42 44,41 44,36 C44,30 42,25 39,22","M61,50 C67,52 72,57 73,61","M73,22 L73,71","M14,22 L85,22"],
- "ঘ":["M39,22 C33,25 29,32 33,37 C37,41 46,40 51,35 L31,51 C44,53 55,60 62,70","M63,22 L63,71","M24,22 L75,22"],
- "ফ":["M28,22 L42,34 L23,47 C36,50 45,58 51,71","M67,46 C63,48 63,52 68,51 C73,49 74,40 68,35 C64,32 58,32 52,33 L52,71","M20,22 L80,22"],
+ "ন":["M62,22 L62,71","M62,48 C58,39 50,35 40,38 C31,41 31,49 36,51","M25,22 L75,22"],
+ "ধ":["M60,14 L60,71 C52,58 42,50 31,48 L60,28","M47,37 C38,35 30,30 31,23 C33,16 43,15 45,22","M60,22 L72,22"],
+ "গ":["M64,14 L64,71","M63,37 L59,28 C54,20 42,18 34,23 C28,27 26,36 28,40 C30,42 33,39 37,37 C42,34 49,36 50,42 C51,49 46,55 38,59","M64,22 L76,22"],
+ "অ":["M39,22 C42,25 44,30 44,36 C44,41 41,42 40,39 C39,36 42,33 47,33 C54,33 61,38 61,47 C61,55 55,63 46,63 C33,63 23,52 20,36","M61,50 C67,52 72,57 73,61","M73,22 L73,71","M14,22 L85,22"],
+ "ঘ":["M63,22 L63,71 C55,60 44,53 31,51 L51,35 C46,40 37,41 33,37 C29,32 33,25 39,22","M24,22 L75,22"],
+ "ফ":["M52,33 L52,71 C45,58 36,50 23,47 L42,34 L28,22","M52,33 C58,32 64,32 68,35 C74,40 73,49 68,51 C63,52 63,48 67,46","M20,22 L80,22"],
  "স":["M29,23 C38,27 44,35 46,41 C42,48 38,56 31,55 C27,54 25,49 25,44","M46,41 C50,36 57,36 63,46","M64,22 L64,72","M22,22 L76,22"],
- "হ":["M34,40 C40,41 45,37 46,32 C56,30 64,37 63,45 C62,53 50,57 34,57 C44,57 52,59 60,64 C65,68 68,73 71,79","M43,22 C45,25 46,29 46,32","M28,22 L71,22"],
- "ত":["M51,48 C46,46 47,38 55,37 C66,36 75,44 74,54 C73,65 62,72 50,72 C36,72 26,60 25,38","M19,22 L81,22"],
- "খ":["M27,25 C29,30 36,28 40,24 C44,19 50,18 52,24 C55,32 47,43 34,46 C46,48 56,55 63,70","M63,14 L63,71","M63,22 L76,22"],
+ "হ":["M43,22 C45,25 46,29 46,32 C45,37 40,41 34,40","M46,32 C56,30 64,37 63,45 C62,53 50,57 34,57 C44,57 52,59 60,64 C65,68 68,73 71,79","M28,22 L71,22"],
+ "ত":["M25,38 C26,60 36,72 50,72 C62,72 73,65 74,54 C75,44 66,36 55,37 C47,38 46,46 51,48","M19,22 L81,22"],
+ "খ":["M63,14 L63,71 C56,55 46,48 34,46 C47,43 55,32 52,24 C50,18 44,19 40,24 C36,28 29,30 27,25","M63,22 L76,22"],
  "া":["M78,22 L78,72","M62,22 L84,22"]
 };
 
@@ -248,7 +256,7 @@ const PACKS = [
 
 /* ───────────── State ───────────── */
 const KEY="bornokhela-v1";
-let S={best:{},easy:true,all:false};
+let S={best:{},easy:true,all:false,helper:true};
 try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const bn=n=>String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]);
@@ -260,12 +268,41 @@ const readable=(word,known)=>[...word].every(ch=>PUNCT.test(ch)||known.has(ch));
 const lastOpen=()=>{let k=0;PACKS.forEach((_,i)=>{if(packOpen(i))k=i});return k};
 
 /* ───────────── Sound ───────────── */
-let voice=null;
+let voice=null, guide=null;
+/* English helper: calm British male. Prefers known male en-GB voices on iPhone (Daniel/Arthur), Android (en-gb-x-gbd/rjs), Chrome and Windows. */
+const MALE_GB=[/daniel/i,/arthur/i,/oliver/i,/google uk english male/i,/ryan/i,/george/i,/thomas/i,/en-gb-x-(gbd|rjs|gbb)/i,/male/i];
 function pickVoice(){const v=speechSynthesis.getVoices();voice=v.find(x=>/^bn[-_]BD/i.test(x.lang))||v.find(x=>/^bn/i.test(x.lang))||null;
- $("voiceNote").textContent=voice?`🔊 Bengali voice found: ${voice.name}.`:"🔇 No Bengali voice on this device, so tap-to-hear is off. On Android, add “Bengali” under Settings → Text-to-speech. Otherwise read the words out together.";
+ const gb=v.filter(x=>/^en[-_]GB/i.test(x.lang));guide=null;for(const re of MALE_GB){guide=gb.find(x=>re.test(x.name)&&!/female/i.test(x.name));if(guide)break}
+ guide=guide||gb[0]||v.find(x=>/^en/i.test(x.lang))||null;
+ $("voiceNote").innerHTML=(voice?`🔊 Bengali voice: ${voice.name}. Device voices can mispronounce single letters (e.g. ব).`:"🔇 No Bengali voice on this device, so tap-to-hear Bengali is off.")+
+  `<br>🇬🇧 Helper voice: ${guide?guide.name:"none found"}.`;
  document.querySelectorAll("#meetSay,#readSay").forEach(b=>b.style.display=voice?"":"none")}
 if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}else{$("voiceNote").textContent="🔇 This browser can't speak. Read the words out together.";}
-function say(t){if(!voice)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.voice=voice;u.lang=voice.lang;u.rate=.8;speechSynthesis.speak(u)}
+function utter(t,v,rate,pitch){const u=new SpeechSynthesisUtterance(t);if(v){u.voice=v;u.lang=v.lang}u.rate=rate;u.pitch=pitch;return u}
+/* talk([["en","Well done!"],["bn","ক"]]) speaks a queue: English helper lines + Bengali words */
+function talk(parts){if(!("speechSynthesis" in window))return;speechSynthesis.cancel();
+ for(const [lang,t] of parts){if(lang==="en"){if(S.helper&&guide)speechSynthesis.speak(utter(t,guide,.88,.92))}else if(voice)speechSynthesis.speak(utter(t,voice,.8,1))}}
+function say(t){talk([["bn",t]])}
+let lastHelp=0;
+function help(t,force){const now=Date.now();if(!force&&now-lastHelp<2500)return;lastHelp=now;talk([["en",Array.isArray(t)?pick(t):t]])}
+const LINES={
+ welcome:"Hello! Pick a pack, and let's play with letters.",
+ meet:"Let's meet some new letters. Tap the big letter to hear it.",
+ watch:"Watch the pencil first.",
+ turn:"Your turn. Put your finger on the green dot, and follow the arrows to the star.",
+ next:["Lovely. Now the next line.","Good. Keep going.","Nice and smooth. Next line."],
+ matra:"Now the top line. From left to right.",
+ dot:"Now tap the little dot.",
+ start:"Start at the green dot.",
+ off:["Nearly! Try to stay on the track.","Oops. Back to the dot, and follow the arrows."],
+ win3:["Brilliant! Three stars!","Wonderful writing! Three stars!"],
+ win:["Well done! You wrote it!","Good job! Let's try again for three stars?"],
+ read:"Can you read this? Tap a word to hear it.",
+ peek:["Let's check the picture.","Were you right?"],
+ silly:"Here's a silly sentence. Can you read it?",
+ unlock:"Hooray! You've opened a new pack!"
+};
+const isMatra=st=>st.path&&st.pts[0][1]===22&&st.pts[st.pts.length-1][1]===22;
 let actx;
 function chime(kind){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const notes=kind==="win"?[523,659,784,1047]:kind==="step"?[784]:[220];
  notes.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type=kind==="oops"?"triangle":"sine";o.frequency.value=f;o.connect(g);g.connect(actx.destination);
@@ -284,7 +321,7 @@ function renderHome(){updateStars();const box=$("packs");box.innerHTML="";
  PACKS.forEach((p,i)=>{const open=packOpen(i);const el=document.createElement("div");el.className="pack"+(open?"":" locked");el.style.setProperty("--pc",p.c);
   el.innerHTML=`<div class="top"><div class="mascot">${p.m}</div><div><h3>${p.name}</h3><small>${p.en}</small></div></div>
   <div class="letters">${p.letters.map(l=>`<div class="lt${S.best[l]?" done":""}">${l==="া"?"◌া":l}</div>`).join("")}</div>
-  <div class="steps"><button class="step" data-go="meet"><span>👀</span>চেনো</button><button class="step" data-go="trace"><span>✍️</span>লেখো</button><button class="step" data-go="read"><span>📖</span>পড়ো</button></div>
+  <div class="steps"><button class="step" data-go="meet"><span>👀</span>চেনো<small class="en">Meet</small></button><button class="step" data-go="trace"><span>✍️</span>লেখো<small class="en">Write</small></button><button class="step" data-go="read"><span>📖</span>পড়ো<small class="en">Read</small></button></div>
   ${open?"":`<div class="lockmsg">🔒</div>`}`;
   el.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{if(!open){chime("oops");el.animate([{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"none"}],250);return}
    curPack=i;({meet:openMeet,trace:()=>openTrace(0),read:()=>openRead(false)})[b.dataset.go]()});
@@ -292,15 +329,15 @@ function renderHome(){updateStars();const box=$("packs");box.innerHTML="";
 
 /* ───────────── Meet ───────────── */
 let meetI=0;
-function openMeet(){meetI=0;show("meet");renderMeet()}
+function openMeet(){meetI=0;show("meet");renderMeet();help(LINES.meet,true)}
 function renderMeet(){const p=PACKS[curPack],l=p.letters[meetI],L=LETTERS[l];$("meetPack").textContent=p.en;
  const w=L.w.replace(l,`<em>${l}</em>`);
  $("meetCard").innerHTML=`<div class="glyph" id="bigGlyph">${L.show||l}</div><div class="sound">“${L.s}”</div>
   <div class="pic"><b>${L.e}</b><span>${w}</span></div><div class="dots">${p.letters.map((_,i)=>`<i class="${i===meetI?"on":""}"></i>`).join("")}</div>`;
- $("bigGlyph").onclick=()=>say(L.show||l)}
+ $("bigGlyph").onclick=()=>talk([["en","This letter says"],["bn",L.show||l],["bn",L.w]])}
 $("meetPrev").onclick=()=>{meetI=(meetI+PACKS[curPack].letters.length-1)%PACKS[curPack].letters.length;renderMeet()};
 $("meetNext").onclick=()=>{meetI=(meetI+1)%PACKS[curPack].letters.length;renderMeet()};
-$("meetSay").onclick=()=>{const l=PACKS[curPack].letters[meetI];say((LETTERS[l].show||l)+"। "+LETTERS[l].w)};
+$("meetSay").onclick=()=>{const l=PACKS[curPack].letters[meetI];talk([["bn",LETTERS[l].show||l],["en","as in"],["bn",LETTERS[l].w]])};
 $("meetTrace").onclick=()=>openTrace(meetI);
 
 /* ───────────── Trace engine ───────────── */
@@ -322,8 +359,8 @@ function startLetter(i){stopDemo();const p=PACKS[curPack];const ch=p.letters[i];
  $("trHead").innerHTML=p.letters.map((l,j)=>`<button class="${j===i?"on":""}${S.best[l]?" done":""}" data-j="${j}">${l==="া"?"◌া":l}</button>`).join("");
  $("trHead").querySelectorAll("button").forEach(b=>b.onclick=()=>startLetter(+b.dataset.j));
  sizeBoard();info();setTimeout(()=>{if(T&&T.ch===ch&&!T.k&&!T.prog)demo()},350)}
-function info(){if(!T)return;$("strokeInfo").textContent=`রেখা ${bn(Math.min(T.k+1,T.strokes.length))}/${bn(T.strokes.length)}`;
- $("hint").textContent=T.demo?"দেখো… 👀":T.done?"":T.strokes[T.k]?.dot?"বিন্দুতে টোকা দাও 👆":"সবুজ থেকে ⭐ পর্যন্ত"}
+function info(){if(!T)return;$("strokeInfo").textContent=`রেখা ${bn(Math.min(T.k+1,T.strokes.length))}/${bn(T.strokes.length)} · line ${Math.min(T.k+1,T.strokes.length)} of ${T.strokes.length}`;
+ $("hint").innerHTML=T.demo?'দেখো… 👀<small class="en">Watch</small>':T.done?"":T.strokes[T.k]?.dot?'বিন্দুতে টোকা দাও 👆<small class="en">Tap the dot</small>':'সবুজ থেকে ⭐ পর্যন্ত<small class="en">Green dot → star</small>'}
 
 const tol=()=>S.easy?{start:13,follow:11,off:22}:{start:9,follow:7.5,off:15};
 const Z=1.12,OX=6,OY=8; // board zoom so letters fill the square
@@ -332,7 +369,7 @@ const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
 
 function onDown(e){if(!T||T.done||T.demo)return;e.preventDefault();cv.setPointerCapture?.(e.pointerId);const f=toBox(e),st=T.strokes[T.k],t=tol();
  const anchor=st.pts[st.dot?0:T.prog];
- if(dist(f,anchor)>t.start){T.errors++;nudge();return}
+ if(dist(f,anchor)>t.start){T.errors++;nudge();help(LINES.start);return}
  if(st.dot){T.k++;chime("step");afterStroke();return}
  T.down=true;T.off=false;T.trail=[f];T.last=f;advance(f);draw()}
 function onMove(e){if(!T||!T.down)return;e.preventDefault();const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e];
@@ -343,14 +380,17 @@ function advance(f){const st=T.strokes[T.k],t=tol(),pts=st.pts;let best=-1;
  const hi=Math.min(pts.length-1,T.prog+9);for(let j=T.prog;j<=hi;j++){if(dist(pts[j],f)<=t.follow)best=j}
  if(best>T.prog){T.prog=best;T.off=false}
  else{let m=1e9;for(let j=Math.max(0,T.prog-4);j<=hi;j++)m=Math.min(m,dist(pts[j],f));
-  if(m>t.off&&!T.off){T.off=true;T.errors++;nudge();T.down=false;T.trail=[]}}
+  if(m>t.off&&!T.off){T.off=true;T.errors++;nudge();help(LINES.off);T.down=false;T.trail=[]}}
  if(T.prog>=pts.length-3&&T.down){T.down=false;T.trail=[];finishStroke()}}
 function finishStroke(){T.k++;T.prog=0;chime("step");afterStroke()}
-function afterStroke(){draw();info();if(T.k>=T.strokes.length)win()}
+function afterStroke(){draw();info();if(T.k>=T.strokes.length){win();return}
+ const st=T.strokes[T.k];help(st.dot?LINES.dot:isMatra(st)?LINES.matra:LINES.next,true)}
 function nudge(){chime("oops");board.classList.remove("shake");void board.offsetWidth;board.classList.add("shake");draw()}
-function win(){T.done=true;const stars=T.errors<=1?3:T.errors<=4?2:1;S.best[T.ch]=Math.max(S.best[T.ch]||0,stars);save();updateStars();
+function win(){T.done=true;const stars=T.errors<=1?3:T.errors<=4?2:1;const before=PACKS.map((_,i)=>packOpen(i));S.best[T.ch]=Math.max(S.best[T.ch]||0,stars);save();updateStars();
+ const unlocked=PACKS.some((_,i)=>packOpen(i)&&!before[i]);
  const L=LETTERS[T.ch];$("resStars").textContent="★".repeat(stars)+"☆".repeat(3-stars);$("resWord").textContent=`${L.e} ${L.w}`;
- setTimeout(()=>{$("result").classList.add("on");chime("win");confetti(["⭐","🎉",L.e,"✨"]);say(L.show||T.ch)},350);info();
+ setTimeout(()=>{$("result").classList.add("on");chime("win");confetti(["⭐","🎉",L.e,"✨"]);
+  talk([["en",pick(stars===3?LINES.win3:LINES.win)],["bn",L.show||T.ch],...(unlocked?[["en",LINES.unlock]]:[])])},350);info();
  const head=$("trHead").children[T.i];head&&head.classList.add("done")}
 cv.addEventListener("pointerdown",onDown);cv.addEventListener("pointermove",onMove);
 cv.addEventListener("pointerup",onUp);cv.addEventListener("pointercancel",onUp);
@@ -360,10 +400,10 @@ $("clear").onclick=()=>startLetter(T.i);
 $("watch").onclick=()=>{startLetter(T.i)};
 
 /* Demo: a pencil writes each stroke in order */
-function demo(){stopDemo();T.demo={k:0,d:0};info();let last=performance.now();
+function demo(){stopDemo();T.demo={k:0,d:0};info();help(LINES.watch,true);let last=performance.now();
  const tick=now=>{if(!T||!T.demo)return;const dt=Math.min(50,now-last);last=now;const st=T.strokes[T.demo.k];
   T.demo.d+=dt*(st.dot?1:.04);const n=st.pts.length-1;
-  if(st.dot?T.demo.d>350:T.demo.d>=n){T.demo.k++;T.demo.d=0;if(T.demo.k>=T.strokes.length){setTimeout(()=>{if(T){T.demo=null;draw();info()}},400);draw();return}}
+  if(st.dot?T.demo.d>350:T.demo.d>=n){T.demo.k++;T.demo.d=0;if(T.demo.k>=T.strokes.length){setTimeout(()=>{if(T&&T.demo){T.demo=null;draw();info();help(LINES.turn,true)}},400);draw();return}}
   draw();demoTimer=requestAnimationFrame(tick)};
  demoTimer=requestAnimationFrame(tick)}
 function stopDemo(){if(demoTimer)cancelAnimationFrame(demoTimer);demoTimer=null;if(T)T.demo=null}
@@ -407,25 +447,24 @@ function pen(p){ctx.font="11px serif";ctx.textAlign="left";ctx.textBaseline="bot
 let readList=[],readI=0,fromTrace=false;
 function openRead(ft){fromTrace=ft;const known=knownUpTo(curPack);
  readList=PACKS.slice(0,curPack+1).flatMap((p,pi)=>p.sentences.map(s=>({t:s[0],en:s[1],mine:pi===curPack}))).filter(s=>readable(s.t,known));
- readList.sort((a,b)=>b.mine-a.mine);readI=0;show("read");renderVocab(known);renderSentence()}
+ readList.sort((a,b)=>b.mine-a.mine);readI=0;show("read");renderVocab(known);renderSentence();help(LINES.read,true)}
 function renderSentence(){const s=readList[readI];if(!s)return;$("readInfo").textContent=`${bn(readI+1)}/${bn(readList.length)}`;
  $("sentence").innerHTML=s.t.split(/(\s+|[,!?।])/).filter(x=>x&&x.trim()).map(x=>/^[,!?।]$/.test(x)?`<span class="punct">${x}</span>`:`<button class="wd" data-w="${x}">${x}</button>`).join("");
  $("split").innerHTML="";
- $("reveal").innerHTML=`<button class="peek" id="peek">🙈 দেখি</button>`;
+ $("reveal").innerHTML=`<button class="peek" id="peek">🙈 দেখি<small class="en">Peek at the picture</small></button>`;
  $("peek").onclick=()=>{const pics=s.t.split(/[\s,!?।]+/).filter(Boolean).map(w=>W[w]?.e||"").join(" ");
-  $("reveal").innerHTML=`<div><div class="pics">${pics}</div><div class="en">${s.en}</div></div>`;chime("step")};
+  $("reveal").innerHTML=`<div><div class="pics">${pics}</div><div class="en">${s.en}</div></div>`;chime("step");talk([["en",pick(LINES.peek)],["bn",s.t]])};
  $("sentence").querySelectorAll(".wd").forEach(b=>b.onclick=()=>{$("sentence").querySelectorAll(".wd").forEach(x=>x.classList.remove("lit"));b.classList.add("lit");
   const w=b.dataset.w;$("split").innerHTML=[...w].map(ch=>`<b>${ch==="া"?"◌া":ch}</b>`).join(" + ")+` = ${w}`;say(w)})}
 $("readPrev").onclick=()=>{readI=(readI+readList.length-1)%readList.length;renderSentence()};
 $("readNext").onclick=()=>{readI=(readI+1)%readList.length;renderSentence()};
 $("readSay").onclick=()=>{const s=readList[readI];s&&say(s.t)};
 function renderVocab(known){const prev=curPack?knownUpTo(curPack-1):new Set();const list=WORDS.filter(([w])=>readable(w,known));
- $("wordCount").textContent=`তুমি এখন ${bn(list.length)}টা শব্দ পড়তে পারো! 🎉`;
+ $("wordCount").innerHTML=`তুমি এখন ${bn(list.length)}টা শব্দ পড়তে পারো! 🎉<small class="en" style="font-size:13px">You can read ${list.length} words now!</small>`;
  $("vocab").innerHTML=list.map(([w,e])=>`<button class="chip${readable(w,prev)?"":" new"}" data-w="${w}">${w} <span>${e}</span></button>`).join("");
  $("vocab").querySelectorAll(".chip").forEach(b=>b.onclick=()=>say(b.dataset.w))}
 
 /* ───────────── Silly machine ───────────── */
-const pick=a=>a[Math.floor(Math.random()*a.length)];
 function silly(){const pi=lastOpen(),known=knownUpTo(pi);const ok=w=>readable(w,known);
  const of=tag=>WORDS.filter(([w,,,t])=>t.split(" ").includes(tag)&&ok(w)).map(x=>x[0]);
  const who=of("who"),things=of("n"),adj=of("a"),food=of("food");const tpl=[];
@@ -437,16 +476,21 @@ function silly(){const pi=lastOpen(),known=knownUpTo(pi);const ok=w=>readable(w,
  if(ok("কর")&&tpl.length<3)tpl.push(()=>[`${pick(who)}, বল কর!`]);
  const out=[];for(let i=0;i<30;i++){const t=pick(tpl)()[0];if(!out.includes(t))out.push(t)}
  return out.map(t=>({t,en:"A silly sentence: tap দেখি to check!",mine:true}))}
-$("sillyBtn").onclick=()=>{curPack=lastOpen();readList=silly();readI=0;show("read");renderVocab(knownUpTo(curPack));renderSentence();$("readInfo").textContent="🎲"};
+$("sillyBtn").onclick=()=>{curPack=lastOpen();readList=silly();readI=0;show("read");renderVocab(knownUpTo(curPack));renderSentence();$("readInfo").textContent="🎲";help(LINES.silly,true)};
 
 /* ───────────── Grown-up panel ───────────── */
-$("parentBtn").onclick=()=>{$("optEasy").checked=S.easy;$("optAll").checked=S.all;$("parent").showModal()};
+$("parentBtn").onclick=()=>{$("optHelper").checked=S.helper;$("optEasy").checked=S.easy;$("optAll").checked=S.all;$("parent").showModal()};
 $("closeParent").onclick=()=>$("parent").close();
 $("optEasy").onchange=e=>{S.easy=e.target.checked;save()};
 $("optAll").onchange=e=>{S.all=e.target.checked;save();renderHome()};
+function helperIcon(){$("helperBtn").textContent=S.helper?"🔊":"🔇"}helperIcon();
+$("helperBtn").onclick=()=>{S.helper=!S.helper;save();helperIcon();if(S.helper)help("Hello! I'm here to help.",true);else speechSynthesis?.cancel()};
+$("optHelper").onchange=e=>{S.helper=e.target.checked;save();helperIcon()};
 $("resetBtn").onclick=()=>{if(confirm("Reset all stars and progress?")){S.best={};save();renderHome()}};
 
+document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(b)help(b.dataset.say,true)});
 renderHome();
+addEventListener("pointerdown",()=>{if(!window._hi){window._hi=1;if($("home").classList.contains("on"))help(LINES.welcome,true)}},{once:true,capture:true});
 </script>
 </body>
 </html>
