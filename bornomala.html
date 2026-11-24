@@ -193,6 +193,8 @@ dialog p{margin:6px 0;color:var(--soft);font-size:15px}
 <script>
 "use strict";
 const pick=a=>a[Math.floor(Math.random()*a.length)];
+const CLIP={bn:{},en:{}};
+const hasClips=()=>Object.keys(CLIP.bn).length>0;
 /* ───────────── Stroke data ─────────────
    100×100 box, matra (top line) at y=22, letters sit on y≈72.
    Flow (সঠিক প্রবাহ): start at the top / the down-line, finish in the little knot, matra (left→right) last.
@@ -276,12 +278,24 @@ function pickVoice(){const v=speechSynthesis.getVoices();voice=v.find(x=>/^bn[-_
  guide=guide||gb[0]||v.find(x=>/^en/i.test(x.lang))||null;
  $("voiceNote").innerHTML=(voice?`🔊 Bengali voice: ${voice.name}. Device voices can mispronounce single letters (e.g. ব).`:"🔇 No Bengali voice on this device, so tap-to-hear Bengali is off.")+
   `<br>🇬🇧 Helper voice: ${guide?guide.name:"none found"}.`;
- document.querySelectorAll("#meetSay,#readSay").forEach(b=>b.style.display=voice?"":"none")}
+ document.querySelectorAll("#meetSay,#readSay").forEach(b=>b.style.display=voice||hasClips()?"":"none")}
 if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}else{$("voiceNote").textContent="🔇 This browser can't speak. Read the words out together.";}
 function utter(t,v,rate,pitch){const u=new SpeechSynthesisUtterance(t);if(v){u.voice=v;u.lang=v.lang}u.rate=rate;u.pitch=pitch;return u}
 /* talk([["en","Well done!"],["bn","ক"]]) speaks a queue: English helper lines + Bengali words */
-function talk(parts){if(!("speechSynthesis" in window))return;speechSynthesis.cancel();
- for(const [lang,t] of parts){if(lang==="en"){if(S.helper&&guide)speechSynthesis.speak(utter(t,guide,.88,.92))}else if(voice)speechSynthesis.speak(utter(t,voice,.8,1))}}
+/* Recorded clips (ElevenLabs: Rahat for Bengali, George for English). CLIP maps text → file number; anything missing falls back to the device voice. */
+const clipFor=(lang,t)=>{const n=CLIP[lang][t.trim()];return n?`/bornomala-audio/${lang}/${String(n).padStart(2,"0")}.mp3`:null};
+let playQ=[],curAudio=null;
+function stopAll(){playQ=[];if(curAudio){curAudio.onended=null;curAudio.pause();curAudio=null}if("speechSynthesis" in window)speechSynthesis.cancel()}
+function playNext(){const it=playQ.shift();if(!it)return;
+ if(it.src){const a=curAudio=new Audio(it.src);a.onended=playNext;a.onerror=()=>ttsOne(it);a.play().catch(()=>ttsOne(it))}else ttsOne(it)}
+function ttsOne(it){const v=it.lang==="en"?guide:voice;if(!v||!("speechSynthesis" in window)){playNext();return}
+ const u=utter(it.t,v,it.lang==="en"?.88:.8,it.lang==="en"?.92:1);u.onend=playNext;u.onerror=playNext;speechSynthesis.speak(u)}
+/* talk([["en","Well done!"],["bn","ক"]]) plays a queue of English helper lines and Bengali words */
+function talk(parts){stopAll();
+ for(const [lang,t] of parts){if(lang==="en"&&!S.helper)continue;const src=clipFor(lang,t);
+  if(!src&&lang==="bn"){const ws=t.split(/[\s,!?।]+/).filter(Boolean);if(ws.length>1&&ws.every(w=>clipFor("bn",w))){ws.forEach(w=>playQ.push({lang,t:w,src:clipFor("bn",w)}));continue}}
+  playQ.push({lang,t,src})}
+ playNext()}
 function say(t){talk([["bn",t]])}
 let lastHelp=0;
 function help(t,force){const now=Date.now();if(!force&&now-lastHelp<2500)return;lastHelp=now;talk([["en",Array.isArray(t)?pick(t):t]])}
@@ -484,7 +498,7 @@ $("closeParent").onclick=()=>$("parent").close();
 $("optEasy").onchange=e=>{S.easy=e.target.checked;save()};
 $("optAll").onchange=e=>{S.all=e.target.checked;save();renderHome()};
 function helperIcon(){$("helperBtn").textContent=S.helper?"🔊":"🔇"}helperIcon();
-$("helperBtn").onclick=()=>{S.helper=!S.helper;save();helperIcon();if(S.helper)help("Hello! I'm here to help.",true);else speechSynthesis?.cancel()};
+$("helperBtn").onclick=()=>{S.helper=!S.helper;save();helperIcon();if(S.helper)help("Hello! I am here to help.",true);else stopAll()};
 $("optHelper").onchange=e=>{S.helper=e.target.checked;save();helperIcon()};
 $("resetBtn").onclick=()=>{if(confirm("Reset all stars and progress?")){S.best={};save();renderHome()}};
 
