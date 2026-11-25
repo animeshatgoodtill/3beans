@@ -47,6 +47,21 @@ small.en,.en{display:block;font:700 12px/1.1 system-ui,sans-serif;letter-spacing
 .step:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--pc) 70%,#000)}
 .lockmsg{position:absolute;inset:0;display:grid;place-items:center;font-size:44px;pointer-events:none}
 .silly-cta{width:100%;min-height:76px;border-radius:24px;background:linear-gradient(90deg,#ff7a59,#f5a623,#8e6cf0,#3fa7f5);color:#fff;font-weight:800;font-size:24px;box-shadow:0 6px 0 #5b4aa0;margin-bottom:16px}
+.fun{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.fun button{min-height:84px;border-radius:24px;color:#fff;font-weight:800;font-size:21px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.fun .f1{grid-column:1/-1;background:linear-gradient(90deg,#ff7a59,#f5a623,#8e6cf0,#3fa7f5);box-shadow:0 6px 0 #5b4aa0}
+.fun .f2{background:#2fae66;box-shadow:0 6px 0 #1e7a46}.fun .f3{background:#e0569b;box-shadow:0 6px 0 #a3336c}
+.fun button:active{transform:translateY(3px);box-shadow:none}
+.tabs{display:flex;gap:8px;justify-content:center;margin-bottom:10px;flex-wrap:wrap}
+.tabs button{min-height:48px;padding:0 16px;border-radius:999px;background:#fff;border:2px solid var(--line);font-weight:800;font-size:18px}
+.tabs button.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,#fff)}
+.poem{background:#fff;border-radius:32px;border:3px solid var(--c);box-shadow:0 6px 0 var(--c);padding:18px 12px;text-align:center}
+.poem h3{margin:0 0 6px;font-size:26px}
+.poem .ln{font-size:clamp(21px,6vw,30px);line-height:1.75;color:#b3a9c4}
+.poem .kn{color:var(--c);font-weight:800;cursor:pointer;border-radius:8px}
+.poem .ln{cursor:pointer;border-radius:12px;transition:background .2s}.poem .ln.now{background:color-mix(in srgb,var(--c) 12%,#fff);color:var(--ink)}
+.poem .kn.hit{background:color-mix(in srgb,var(--c) 22%,#fff)}
+.poem .credit{font-size:14px;color:var(--soft);margin-top:8px}
 .next-card{border:3px dashed var(--line);border-radius:28px;padding:16px;color:var(--soft);text-align:center}
 
 /* Shared bits */
@@ -126,7 +141,11 @@ dialog p{margin:6px 0;color:var(--soft);font-size:15px}
     <h2>চলো খেলি! <small class="en" style="display:inline;font-size:15px;color:var(--soft)">Let's play!</small></h2>
     <p class="sub">Learn a few letters, trace them, then read silly sentences made only from letters you know.</p>
     <div id="packs"></div>
-    <button class="silly-cta" id="sillyBtn">🎲 মজার বাক্য<small class="en" style="font-size:14px">Silly sentences</small></button>
+    <div class="fun">
+      <button class="f1" id="sillyBtn">🎲 মজার বাক্য<small class="en" style="font-size:14px">Silly sentences</small></button>
+      <button class="f2" id="mashBtn" data-say="Silly animals">🧪 খিচুড়ি জন্তু<small class="en" style="font-size:13px">Silly animals</small></button>
+      <button class="f3" id="rhymeBtn" data-say="Rhymes">📜 ছড়া<small class="en" style="font-size:13px">Rhymes</small></button>
+    </div>
     <div class="next-card">আরও অক্ষর আসছে… 🚀 <small class="en" style="display:inline">More letters coming</small><br><small>Next: ি ে ু, then more letters</small></div>
   </section>
 
@@ -174,16 +193,26 @@ dialog p{margin:6px 0;color:var(--soft);font-size:15px}
     <div class="count" id="wordCount"></div>
     <div class="vocab" id="vocab"></div>
   </section>
+
+  <!-- RHYMES -->
+  <section class="view" id="rhyme">
+    <div class="bar"><button class="back" data-home data-say="Home">← বাড়ি<small class="en">Home</small></button><span class="pill" id="rhymeInfo"></span></div>
+    <div class="tabs" id="rhymeTabs"></div>
+    <div class="poem" id="poem"></div>
+    <div class="row"><button class="big-btn" id="rhymeSay">🔊 শোনো<small class="en">Listen</small></button></div>
+    <div class="count" id="rhymeCount"></div>
+  </section>
 </div>
 
 <dialog id="parent">
   <h3>For grown-ups</h3>
   <p><b>How it works:</b> letters come in small packs. Each pack has Meet → Trace → Read. Read only shows words built from letters already learned, so your child can genuinely read every sentence. Tap a word to hear it and see its letters. Tap “দেখি” to check with a picture.</p>
-  <p><b>Tracing:</b> start at the green dot, follow the arrows to the star. Letters start at the top or the down-line and finish in the little knot; the top line (মাত্রা) goes last, left to right.</p>
+  <p><b>Tracing:</b> start at the green dot, follow the arrows to the star. Stroke order follows the NCTB Class 1 textbook (আমার বাংলা বই): top line (মাত্রা) first, left to right, then the letter body.</p>
   <p><b>Buttons:</b> every Bengali button has its English meaning underneath, and the helper voice says it when tapped.</p>
   <label><input type="checkbox" id="optEasy" checked> Easy tracing (wider track, for little fingers)</label>
   <label><input type="checkbox" id="optAll"> Open all packs</label>
   <label><input type="checkbox" id="optHelper" checked> English helper voice (calm British man)</label>
+  <label><input type="checkbox" id="optBn" checked> Say each helper line in Bengali too</label>
   <p id="voiceNote"></p>
   <div class="row"><button class="big-btn ghost" id="resetBtn">Reset progress</button><button class="big-btn" id="closeParent">Done</button></div>
 </dialog>
@@ -193,31 +222,31 @@ dialog p{margin:6px 0;color:var(--soft);font-size:15px}
 <script>
 "use strict";
 const pick=a=>a[Math.floor(Math.random()*a.length)];
-const CLIP={"bn":{"ক":1,"ব":2,"ল":3,"জ":4,"র":5,"ম":6,"ন":7,"ধ":8,"গ":9,"অ":10,"ঘ":11,"ফ":12,"স":13,"া":14,"হ":15,"ত":16,"খ":17,"কলা":18,"বল":19,"লাটিম":20,"জল":21,"রকেট":22,"মাছ":23,"নৌকা":24,"ধান":25,"গাছ":26,"অজগর":27,"ঘড়ি":28,"ফুল":29,"সূর্য":30,"মা":31,"হাতি":32,"তরমুজ":33,"খরগোশ":34,"কা":35,"কল":36,"বক":37,"বর":38,"কর":39,"বকবক":40,"কলকল":41,"কলম":42,"মগ":43,"জগ":44,"গরম":45,"নরম":46,"ধর":47,"বন":48,"মন":49,"ঘর":50,"ফল":51,"বরফ":52,"রস":53,"বস":54,"সব":55,"বাবা":56,"হাত":57,"বাঘ":58,"নাক":59,"কান":60,"খা":61,"গা":62,"গান":63,"হাহা":64,"গাধা":65,"খাতা":66,"জামা":67,"মামা":68,"লাল":69,"বাতাস":70,"খাবার":71,"বক, বল কর!":72,"জল কলকল!":73,"বক, বকবক কর!":74,"বর, বল কর!":75,"বল ধর!":76,"বক, কলম ধর!":77,"জল গরম!":78,"মগ নরম!":79,"বর, জগ ধর!":80,"অজগর, বস!":81,"বরফ গরম!":82,"অজগর, ফল ধর!":83,"সব ঘর নরম!":84,"অজগর নরম!":85,"বক, রস ধর!":86,"বাঘ, কলা খা!":87,"গাধা, গান গা!":88,"অজগর, নাক ধর!":89,"বাবা বাঘ! হাহা!":90,"গাধা, খাতা খা!":91,"মা, বাতাস গরম!":92,"জামা লাল, নাক লাল!":93},"en":{"Hello! Pick a pack, and let's play with letters.":1,"Let's meet some new letters. Tap the big letter to hear it.":2,"Watch the pencil first.":3,"Your turn. Put your finger on the green dot, and follow the arrows to the star.":4,"Lovely. Now the next line.":5,"Good. Keep going.":6,"Nice and smooth. Next line.":7,"Now the top line. From left to right.":8,"Now tap the little dot.":9,"Start at the green dot.":10,"Nearly! Try to stay on the track.":11,"Oops. Back to the dot, and follow the arrows.":12,"Brilliant! Three stars!":13,"Wonderful writing! Three stars!":14,"Well done! You wrote it!":15,"Good job! Let's try again for three stars?":16,"Can you read this? Tap a word to hear it.":17,"Let's check the picture.":18,"Were you right?":19,"Here's a silly sentence. Can you read it?":20,"Hooray! You've opened a new pack!":21,"This letter says":22,"as in":23,"Hello! I am here to help.":24,"Home":25,"Back":26,"Next letter":27,"Again":28,"Next":29,"Start again":30,"Next one":31}};
+const CLIP={"bn":{"ক":1,"ব":2,"ল":3,"জ":4,"র":5,"ম":6,"ন":7,"ধ":8,"গ":9,"অ":10,"ঘ":11,"ফ":12,"স":13,"া":14,"হ":15,"ত":16,"খ":17,"কলা":18,"বল":19,"লাটিম":20,"জল":21,"রকেট":22,"মাছ":23,"নৌকা":24,"ধান":25,"গাছ":26,"অজগর":27,"ঘড়ি":28,"ফুল":29,"সূর্য":30,"মা":31,"হাতি":32,"তরমুজ":33,"খরগোশ":34,"কা":35,"কল":36,"বক":37,"বর":38,"কর":39,"বকবক":40,"কলকল":41,"কলম":42,"মগ":43,"জগ":44,"গরম":45,"নরম":46,"ধর":47,"বন":48,"মন":49,"ঘর":50,"ফল":51,"বরফ":52,"রস":53,"বস":54,"সব":55,"বাবা":56,"হাত":57,"বাঘ":58,"নাক":59,"কান":60,"খা":61,"গা":62,"গান":63,"হাহা":64,"গাধা":65,"খাতা":66,"জামা":67,"মামা":68,"লাল":69,"বাতাস":70,"খাবার":71,"বক, বল কর!":72,"জল কলকল!":73,"বক, বকবক কর!":74,"বর, বল কর!":75,"বল ধর!":76,"বক, কলম ধর!":77,"জল গরম!":78,"মগ নরম!":79,"বর, জগ ধর!":80,"অজগর, বস!":81,"বরফ গরম!":82,"অজগর, ফল ধর!":83,"সব ঘর নরম!":84,"অজগর নরম!":85,"বক, রস ধর!":86,"বাঘ, কলা খা!":87,"গাধা, গান গা!":88,"অজগর, নাক ধর!":89,"বাবা বাঘ! হাহা!":90,"গাধা, খাতা খা!":91,"মা, বাতাস গরম!":92,"জামা লাল, নাক লাল!":93,"কলরব":94,"মগজ":95,"গবগব":96,"গমগম":97,"কলস":98,"সরসর":99,"ফসফস":100,"ঘাস":101,"সাবান":102,"কাক":103,"গাজর":104,"কাতলা":105,"জাহাজ":106,"হাবাগাবা":107,"জল কলকল, বক বকবক!":108,"কল কলকল!":109,"বক, কলরব কর!":110,"বল, বকবক কর!":111,"বক, মগজ ধর!":112,"মগজ গরম!":113,"মগজ নরম, কলম গরম!":114,"জগ, বল ধর!":115,"বন গমগম!":116,"বক, গবগব কর!":117,"অজগর সরসর, বক বকবক!":118,"অজগর, কলস ধর!":119,"সব ঘর বরফ!":120,"রস ফসফস!":121,"বক, অজগর ধর!":122,"বাঘ মামা, ঘাস খা!":123,"কা! কা! কাক!":124,"গাধা, সাবান খা!":125,"কাতলা, জাহাজ ধর!":126,"মামা, নাক লাল!":127,"কাক হাবাগাবা!":128,"বকজগর":129,"বকাক":130,"বাঘাধা":131,"কাকাতলা":132,"গাধাজগর":133,"বকাতলা":134,"বাঘজগর":135,"হ্যালো! একটা প্যাক বেছে নাও, চলো অক্ষর নিয়ে খেলি।":136,"চলো নতুন অক্ষর চিনি। বড় অক্ষরটা ছুঁয়ে শোনো।":137,"আগে পেন্সিলটা দেখো।":138,"এবার তোমার পালা। সবুজ বিন্দুতে আঙুল রাখো, তারপর তীর ধরে তারা পর্যন্ত যাও।":139,"এবার তোমার পালা। প্রথমে মাত্রা টানো, বাঁ থেকে ডানে।":140,"বাহ! এবার পরের দাগ।":141,"ভালো! চালিয়ে যাও।":142,"সুন্দর হয়েছে! পরের দাগ।":143,"এবার মাত্রা। বাঁ থেকে ডানে।":144,"এবার ছোট্ট বিন্দুতে টোকা দাও।":145,"সবুজ বিন্দু থেকে শুরু করো।":146,"প্রায় হয়েছে! দাগের ওপর থাকো।":147,"উফ! বিন্দুতে ফিরে যাও, তীর ধরে চলো।":148,"দারুণ! তিনটা তারা!":149,"চমৎকার লেখা! তিনটা তারা!":150,"শাবাশ! তুমি লিখে ফেলেছ!":151,"ভালো হয়েছে! তিনটা তারার জন্য আবার চেষ্টা করবে?":152,"এটা পড়তে পারো? শব্দটা ছুঁয়ে শোনো।":153,"চলো ছবিটা দেখি।":154,"ঠিক হয়েছে তো?":155,"এই যে একটা মজার বাক্য! পড়তে পারো?":156,"হুররে! নতুন প্যাক খুলে গেছে!":157,"চলো, সুকুমার রায়ের মতো মজার জন্তু বানাই!":158,"ছড়াটা শোনো। তারপর রঙিন অক্ষরগুলো ছুঁয়ে দেখো!":159,"এই অক্ষরটা হলো":160,"যেমন":161,"হ্যালো! আমি তোমাকে সাহায্য করব।":162,"বাড়ি":163,"আগের":164,"পরের অক্ষর":165,"আবার":166,"পরের":167,"মোছো":168,"পরেরটা":169,"খিচুড়ি জন্তু":170,"ছড়া":171,"হনহন":174,"বনবন":175,"কনকন":176,"খনখন":177,"বক বকবক!":178,"বল বনবন!":179,"জল কনকন!":180,"বক বনবন, বল বনবন!":181,"বরফ কনকন!":182,"অজগর সরসর!":183,"অজগর বনবন!":184,"বাঘ হনহন!":185,"গাধা খনখন!":186,"মামা হনহন, বাঘ বনবন!":187,"কাক খনখন! হাহা!":188,"হাঁস ছিল, সজারু, (ব্যাকরণ মানি না),":190,"হয়ে গেল ‘হাঁসজারু’ কেমনে তা জানি না।":191,"বক কহে কচ্ছপে— “বাহবা কি ফুর্তি!":192,"অতি খাসা আমাদের বকচ্ছপ মূর্তি।”":193,"চলে হনহন":194,"ছোটে পনপন":195,"ঘোরে বনবন":196,"কাজে ঠনঠন":197,"বায়ু শনশন":198,"শীতে কনকন":199,"কাশি খনখন":200,"ফোঁড়া টনটন":201,"মাছি ভনভন":202,"থালা ঝন ঝন।":203,"বাবুরাম সাপুড়ে,":204,"কোথা যাস বাপুরে?":205,"আয় বাবা দেখে যা,":206,"দুটো সাপ রেখে যা—":207,"যে সাপের চোখ নেই,":208,"শিং নেই, নোখ নেই,":209,"ছোটে না কি হাঁটে না,":210,"কাউকে যে কাটে না,":211},"en":{"Hello! Pick a pack, and let's play with letters.":1,"Let's meet some new letters. Tap the big letter to hear it.":2,"Watch the pencil first.":3,"Your turn. Put your finger on the green dot, and follow the arrows to the star.":4,"Lovely. Now the next line.":5,"Good. Keep going.":6,"Nice and smooth. Next line.":7,"Now the top line. From left to right.":8,"Now tap the little dot.":9,"Start at the green dot.":10,"Nearly! Try to stay on the track.":11,"Oops. Back to the dot, and follow the arrows.":12,"Brilliant! Three stars!":13,"Wonderful writing! Three stars!":14,"Well done! You wrote it!":15,"Good job! Let's try again for three stars?":16,"Can you read this? Tap a word to hear it.":17,"Let's check the picture.":18,"Were you right?":19,"Here's a silly sentence. Can you read it?":20,"Hooray! You've opened a new pack!":21,"This letter says":22,"as in":23,"Hello! I am here to help.":24,"Home":25,"Back":26,"Next letter":27,"Again":28,"Next":29,"Start again":30,"Next one":31,"Your turn. Start with the top line, from left to right.":32,"Let's make silly animals, just like Sukumar Ray!":33,"Listen to the rhyme. Then tap the coloured letters you know!":34,"Silly animals":35,"Rhymes":36,"Finish pack three to make silly animals!":37}};
 const hasClips=()=>Object.keys(CLIP.bn).length>0;
 /* ───────────── Stroke data ─────────────
    100×100 box, matra (top line) at y=22, letters sit on y≈72.
-   Flow (সঠিক প্রবাহ): start at the top / the down-line, finish in the little knot, matra (left→right) last.
-   Sources: teachers.gov.bd (ব: start at top, come down, corner, go up); Prothom Alo (ল: straight line first, then curls from the right).
+   Flow follows NCTB Class 1 "আমার বাংলা বই" (2026) লিখি boxes: matra first (left→right) on full-matra letters,
+   then the body, usually one stroke from just under the matra, with the down-line drawn upwards. গ: stem down.
    "dot:x,y" is a tap. */
 const STROKES = {
- "ক":["M51,22 L51,71 C45,58 36,51 25,48 L38,37 C48,29 65,30 71,38 C75,44 72,51 66,52","M21,22 L79,22"],
- "ব":["M62,22 L62,71 C54,58 44,49 31,46 L61,31","M27,22 L73,22"],
- "র":["M62,22 L62,71 C54,58 44,49 31,46 L61,31","M27,22 L73,22","dot:38,67"],
- "ল":["M68,22 L68,71","M68,36 C66,33 64,31 60,31 C55,31 50,35 49,43 C50,37 46,32 38,31 C29,31 22,38 25,48 C28,59 41,58 42,52","M19,22 L81,22"],
- "জ":["M46,22 C42,25 37,30 36,36 C34,44 40,49 47,47 C52,45 59,44 61,50 C63,57 57,64 46,64 C31,64 20,52 20,34","M46,23 C50,32 60,38 70,37 C74,37 77,36 80,35 C75,46 73,60 78,72","M13,22 L87,22"],
- "ম":["M36,24 C42,32 42,44 38,53 C44,47 54,50 61,70","M61,22 L61,71","M27,22 L73,22"],
- "ন":["M62,22 L62,71","M62,48 C58,39 50,35 40,38 C31,41 31,49 36,51","M25,22 L75,22"],
- "ধ":["M60,14 L60,71 C52,58 42,50 31,48 L60,28","M47,37 C38,35 30,30 31,23 C33,16 43,15 45,22","M60,22 L72,22"],
- "গ":["M64,14 L64,71","M63,37 L59,28 C54,20 42,18 34,23 C28,27 26,36 28,40 C30,42 33,39 37,37 C42,34 49,36 50,42 C51,49 46,55 38,59","M64,22 L76,22"],
- "অ":["M39,22 C42,25 44,30 44,36 C44,41 41,42 40,39 C39,36 42,33 47,33 C54,33 61,38 61,47 C61,55 55,63 46,63 C33,63 23,52 20,36","M61,50 C67,52 72,57 73,61","M73,22 L73,71","M14,22 L85,22"],
- "ঘ":["M63,22 L63,71 C55,60 44,53 31,51 L51,35 C46,40 37,41 33,37 C29,32 33,25 39,22","M24,22 L75,22"],
- "ফ":["M52,33 L52,71 C45,58 36,50 23,47 L42,34 L28,22","M52,33 C58,32 64,32 68,35 C74,40 73,49 68,51 C63,52 63,48 67,46","M20,22 L80,22"],
- "স":["M29,23 C38,27 44,35 46,41 C42,48 38,56 31,55 C27,54 25,49 25,44","M46,41 C50,36 57,36 63,46","M64,22 L64,72","M22,22 L76,22"],
- "হ":["M43,22 C45,25 46,29 46,32 C45,37 40,41 34,40","M46,32 C56,30 64,37 63,45 C62,53 50,57 34,57 C44,57 52,59 60,64 C65,68 68,73 71,79","M28,22 L71,22"],
- "ত":["M25,38 C26,60 36,72 50,72 C62,72 73,65 74,54 C75,44 66,36 55,37 C47,38 46,46 51,48","M19,22 L81,22"],
- "খ":["M63,14 L63,71 C56,55 46,48 34,46 C47,43 55,32 52,24 C50,18 44,19 40,24 C36,28 29,30 27,25","M63,22 L76,22"],
- "া":["M78,22 L78,72","M62,22 L84,22"]
+ "ক":["M21,22 L79,22","M47,31 L25,48 C36,51 45,58 51,71 L51,23 C58,25 69,29 71,37 C74,45 71,51 66,52"],
+ "ব":["M27,22 L73,22","M62,24 L31,46 C44,49 54,58 62,71 L62,23"],
+ "র":["M27,22 L73,22","M62,24 L31,46 C44,49 54,58 62,71 L62,23","dot:38,67"],
+ "ল":["M19,22 L81,22","M42,52 C41,58 28,59 25,48 C22,38 29,31 38,31 C46,32 50,37 49,43 C50,35 55,31 60,30 C64,29 67,26 68,23 L68,71"],
+ "জ":["M13,22 L87,22","M46,22 C42,25 37,30 36,36 C34,44 40,49 47,47 C52,45 59,44 61,50 C63,57 57,64 46,64 C31,64 20,52 20,34","M46,23 C50,32 60,38 70,37 C74,37 77,36 80,35 C75,46 73,60 78,72"],
+ "ম":["M27,22 L73,22","M36,24 C42,32 42,44 39,51 C37,56 32,56 33,51 C34,47 40,46 45,49 C52,53 58,60 61,70 L61,23"],
+ "ন":["M25,22 L75,22","M36,51 C31,49 31,41 40,38 C50,35 58,39 62,48","M62,71 L62,23"],
+ "ধ":["M45,22 C43,15 33,16 31,23 C30,30 38,34 47,34 L60,27","M60,28 L31,48 C42,50 52,58 60,71 L60,14","M60,22 L72,22"],
+ "গ":["M38,59 C46,55 51,49 50,42 C49,36 42,34 37,37 C33,39 30,42 28,40 C26,36 28,27 34,23 C42,18 54,20 59,28 L63,37","M64,14 L64,71","M64,22 L76,22"],
+ "অ":["M14,22 L85,22","M48,31 C49,35 47,37 45,37 C41,37 40,33 41,30 C42,27 45,26 48,26 C57,26 64,32 65,40 C66,45 66,48 66,51 C62,57 56,59 50,59 C38,59 27,52 23,42 C20,34 17,27 14,22","M66,51 C72,55 77,62 79,71 L79,23"],
+ "ঘ":["M24,22 L75,22","M37,24 C31,28 29,33 33,37 C37,41 46,40 51,35 L31,51 C44,53 55,60 62,70 L63,23"],
+ "ফ":["M20,22 L80,22","M28,23 L42,34 L23,47 C36,50 45,58 51,71 L52,33 C58,32 64,32 68,35 C74,40 73,49 68,51 C63,52 63,48 67,46"],
+ "স":["M22,22 L76,22","M29,23 C38,27 44,35 46,41 C42,48 38,56 31,55 C27,54 25,49 25,44","M46,41 C50,36 57,36 63,46","M64,72 L64,23"],
+ "হ":["M28,22 L71,22","M38,40 C34,42 30,39 31,34 C32,28 38,24 45,24 C56,25 64,35 63,45 C62,53 50,57 34,57 C44,57 52,59 60,64 C65,68 68,73 71,79"],
+ "ত":["M51,48 C46,46 47,38 55,37 C66,36 75,44 74,54 C73,65 62,72 50,72 C36,72 26,60 25,38 C25,32 26,26 27,23","M19,22 L81,22"],
+ "খ":["M27,25 C29,30 36,28 40,24 C44,19 50,18 52,24 C55,32 47,43 34,46 C46,48 56,55 63,70 L63,14","M63,22 L76,22"],
+ "া":["M62,22 L84,22","M78,22 L78,72"]
 };
 
 /* ───────────── Letters ───────────── */
@@ -232,40 +261,61 @@ const LETTERS = {
    tags: n=thing, a=describing word, who=can be told to do things, food=edible (or silly-edible) */
 const WORDS = [
  ["বল","⚽","ball","n"],["জল","💧","water","n"],["কল","🚰","tap","n"],["বক","🦢","heron","n who"],["বর","🤵","groom","n who"],
- ["কর","🙌","do!",""],["বকবক","🗣️","chatter",""],["কলকল","🌊","gurgle-gurgle",""],
+ ["কর","🙌","do!",""],["বকবক","🗣️","yak-yak (chatter)","snd"],["কলকল","🌊","glug-glug","snd"],["কলরব","📢","a big racket",""],
  ["কলম","✏️","pen","n"],["মগ","☕","mug","n"],["জগ","🫗","jug","n"],["গরম","🔥","hot","a"],["নরম","🧸","soft","a"],
- ["ধর","🤲","catch! / hold!",""],["বন","🌳","forest","n"],["মন","💭","mind",""],
- ["অজগর","🐍","python","n who"],["ঘর","🏠","house","n"],["ফল","🍎","fruit","n food"],["বরফ","🧊","ice","n food"],
- ["রস","🧃","juice","n food"],["বস","🪑","sit!",""],["সব","👐","all",""],
+ ["ধর","🤲","catch! / hold!",""],["বন","🌳","forest","n"],["মন","💭","mind",""],["মগজ","🧠","brain","n"],["গবগব","😋","gulp-gulp",""],["গমগম","🥁","boom-boom","snd"],
+ ["অজগর","🐍","python","n who"],["ঘর","🏠","house","n"],["ফল","🍎","fruit","n food"],["বরফ","🧊","ice","n food"],["কলস","🏺","water pot","n"],
+ ["রস","🧃","juice","n food"],["বস","🪑","sit!",""],["সব","👐","all",""],["সরসর","〰️","slither-slither","snd"],["ফসফস","🫧","fizz-fizz","snd"],
  ["মা","👩","mum","n who"],["বাবা","👨","dad","n who"],["কলা","🍌","banana","n food"],["হাত","✋","hand","n"],["বাঘ","🐯","tiger","n who"],
  ["নাক","👃","nose","n"],["কান","👂","ear","n"],["খা","😋","eat!",""],["গা","🎤","sing!",""],["গান","🎵","song","n"],
- ["হাহা","😂","haha",""],["গাধা","🫏","donkey","n who"],["খাতা","📒","notebook","n food"],["জামা","👕","shirt","n food"],
- ["মামা","🧔","uncle (mum's brother)","n who"],["লাল","🔴","red","a"],["বাতাস","🌬️","wind","n"],["খাবার","🍛","food","n food"]
+ ["হাহা","😂","haha","snd"],["গাধা","🫏","donkey","n who"],["খাতা","📒","notebook","n"],["জামা","👕","shirt","n"],
+ ["মামা","🧔","uncle (mum's brother)","n who"],["লাল","🔴","red","a"],["বাতাস","🌬️","wind","n"],["খাবার","🍛","food","n food"],
+ ["ঘাস","🌿","grass","n food"],["সাবান","🧼","soap","n"],["কাক","🐦‍⬛","crow","n who"],["কা","🗣️","caw!",""],["গাজর","🥕","carrot","n food"],
+ ["কাতলা","🐟","katla fish","n who"],["জাহাজ","🚢","ship","n"],["হাবাগাবা","🤪","silly-billy","a"],
+ ["হনহন","🚶","hon-hon (striding fast)","snd"],["বনবন","🌀","bon-bon (spinning round)","snd"],["কনকন","🥶","kon-kon (icy cold)","snd"],["খনখন","😷","khon-khon (coughing)","snd"]
 ];
 const W = Object.fromEntries(WORDS.map(([w,e,en,t])=>[w,{e,en,tags:t.split(" ")}]));
+/* খিচুড়ি animals, in the spirit of Sukumar Ray's হাঁসজারু and বকচ্ছপ: [animal, animal, mashup, English] */
+const MASH = [
+ ["বক","অজগর","বকজগর","Heron + python = a heron-thon!"],["বক","কাক","বকাক","Heron + crow = a her-crow!"],
+ ["বাঘ","গাধা","বাঘাধা","Tiger + donkey = a tig-donkey!"],["কাক","কাতলা","কাকাতলা","Crow + fish = a crow-fish!"],
+ ["গাধা","অজগর","গাধাজগর","Donkey + python = a donky-thon!"],["বক","কাতলা","বকাতলা","Heron + fish = a hero-fish!"],
+ ["বাঘ","অজগর","বাঘজগর","Tiger + python = a tiger-thon!"]
+];
+MASH.forEach(([a,b,m,en])=>{W[m]={e:W[a].e+W[b].e,en,tags:[]}});
+/* Rhymes by Sukumar Ray (আবোল তাবোল 1923, হ য ব র ল 1921; public domain) */
+const RHYMES = [
+ {id:"khichuri",title:"খিচুড়ি",en:"Khichuri (Hotchpotch): a duck and a porcupine become a duck-upine!",
+  lines:["হাঁস ছিল, সজারু, (ব্যাকরণ মানি না),","হয়ে গেল ‘হাঁসজারু’ কেমনে তা জানি না।","বক কহে কচ্ছপে— “বাহবা কি ফুর্তি!","অতি খাসা আমাদের বকচ্ছপ মূর্তি।”"]},
+ {id:"honhon",title:"হনহন পনপন",en:"Honhon Ponpon: a poem made of sound-words. Find the ones you can read!",
+  lines:["চলে হনহন","ছোটে পনপন","ঘোরে বনবন","কাজে ঠনঠন","বায়ু শনশন","শীতে কনকন","কাশি খনখন","ফোঁড়া টনটন","মাছি ভনভন","থালা ঝন ঝন।"],src:"হ য ব র ল (১৯২১)"},
+ {id:"baburam",title:"বাবুরাম সাপুড়ে",en:"Baburam the snake-charmer: bring me a snake with no eyes, no horns, no claws!",
+  lines:["বাবুরাম সাপুড়ে,","কোথা যাস বাপুরে?","আয় বাবা দেখে যা,","দুটো সাপ রেখে যা—","যে সাপের চোখ নেই,","শিং নেই, নোখ নেই,","ছোটে না কি হাঁটে না,","কাউকে যে কাটে না,"]}
+];
 
 /* ───────────── Packs ───────────── */
 const PACKS = [
- {name:"বক আর বল", en:"Pack 1 · Heron & ball", m:"🦢", c:"#ff7a59", letters:["ক","ব","ল","জ","র"],
-  sentences:[["বক, বল কর!","Heron, bowl the ball!"],["জল কলকল!","The water goes gurgle-gurgle!"],["বক, বকবক কর!","Heron, chatter away!"],["বর, বল কর!","Groom, bowl the ball!"]]},
- {name:"গরম জল", en:"Pack 2 · Hot water", m:"✏️", c:"#3fa7f5", letters:["ম","ন","ধ","গ"],
-  sentences:[["বল ধর!","Catch the ball!"],["বক, কলম ধর!","Heron, hold the pen!"],["জল গরম!","The water is hot!"],["মগ নরম!","The mug is soft!"],["বর, জগ ধর!","Groom, hold the jug!"]]},
- {name:"অজগর", en:"Pack 3 · Python", m:"🐍", c:"#8e6cf0", letters:["অ","ঘ","ফ","স"],
-  sentences:[["অজগর, বস!","Python, sit!"],["বরফ গরম!","The ice is hot!"],["অজগর, ফল ধর!","Python, catch the fruit!"],["সব ঘর নরম!","All the houses are soft!"],["অজগর নরম!","The python is soft!"],["বক, রস ধর!","Heron, hold the juice!"]]},
- {name:"বাঘ মামা", en:"Pack 4 · Tiger", m:"🐯", c:"#f5a623", letters:["া","হ","ত","খ"],
-  sentences:[["বাঘ, কলা খা!","Tiger, eat a banana!"],["গাধা, গান গা!","Donkey, sing a song!"],["অজগর, নাক ধর!","Python, hold your nose!"],["বাবা বাঘ! হাহা!","Dad is a tiger! Haha!"],["গাধা, খাতা খা!","Donkey, eat the notebook!"],["মা, বাতাস গরম!","Mum, the wind is hot!"],["জামা লাল, নাক লাল!","Red shirt, red nose!"]]}
+ {name:"কলকল বকবক", en:"Pack 1 · Gurgle & yak", m:"🦢", c:"#ff7a59", letters:["ক","ব","ল","জ","র"],
+  sentences:[["জল কলকল!","The water goes kol-kol (gurgling)."],["বক বকবক!","The heron goes bok-bok (chattering)."],["জল কলকল, বক বকবক!","Water gurgles, heron chatters!"]]},
+ {name:"বনবন কনকন", en:"Pack 2 · Spin & shiver", m:"✏️", c:"#3fa7f5", letters:["ম","ন","ধ","গ"],
+  sentences:[["জল কনকন!","The water is kon-kon (icy cold)."],["বল বনবন!","The ball spins bon-bon (round and round)."]]},
+ {name:"অজগর সরসর", en:"Pack 3 · Slithery python", m:"🐍", c:"#8e6cf0", letters:["অ","ঘ","ফ","স"],
+  sentences:[["বরফ কনকন!","The ice is kon-kon (icy cold)."],["অজগর সরসর!","The python goes sor-sor (slithering)."]]},
+ {name:"বাঘ হনহন", en:"Pack 4 · Striding tiger", m:"🐯", c:"#f5a623", letters:["া","হ","ত","খ"],
+  sentences:[["বাঘ হনহন!","The tiger walks hon-hon (fast, like চলে হনহন)."],["গাধা খনখন!","The donkey coughs khon-khon (like কাশি খনখন)."],["মামা হনহন, বাঘ বনবন!","Uncle hurries along, the tiger spins round!"]]}
 ];
 
 /* ───────────── State ───────────── */
 const KEY="bornokhela-v1";
-let S={best:{},easy:true,all:false,helper:true};
+let S={best:{},easy:true,all:false,helper:true,bnHelp:true};
 try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const bn=n=>String(n).replace(/\d/g,d=>"০১২৩৪৫৬৭৮৯"[d]);
 const $=id=>document.getElementById(id);
 const packOpen=i=>S.all||i===0||PACKS[i-1].letters.every(l=>S.best[l]);
 const knownUpTo=i=>new Set(PACKS.slice(0,i+1).flatMap(p=>p.letters));
-const PUNCT=/[\s,!?।]/;
+const PUNCT=/[\s,!?।:+=]/;
+const SPLIT=/[\s,!?।:+=]+/;
 const readable=(word,known)=>[...word].every(ch=>PUNCT.test(ch)||known.has(ch));
 const lastOpen=()=>{let k=0;PACKS.forEach((_,i)=>{if(packOpen(i))k=i});return k};
 
@@ -292,8 +342,9 @@ function ttsOne(it){const v=it.lang==="en"?guide:voice;if(!v||!("speechSynthesis
  const u=utter(it.t,v,it.lang==="en"?.88:.8,it.lang==="en"?.92:1);u.onend=playNext;u.onerror=playNext;speechSynthesis.speak(u)}
 /* talk([["en","Well done!"],["bn","ক"]]) plays a queue of English helper lines and Bengali words */
 function talk(parts){stopAll();
- for(const [lang,t] of parts){if(lang==="en"&&!S.helper)continue;const src=clipFor(lang,t);
-  if(!src&&lang==="bn"){const ws=t.split(/[\s,!?।]+/).filter(Boolean);if(ws.length>1&&ws.every(w=>clipFor("bn",w))){ws.forEach(w=>playQ.push({lang,t:w,src:clipFor("bn",w)}));continue}}
+ parts=parts.flatMap(([l,t])=>l==="en"&&S.bnHelp&&BN[t]?[[l,t],["bn",BN[t]]]:[[l,t]]);
+ for(const [lang,t] of parts){if(lang==="en"&&!S.helper)continue;if(lang==="bn"&&BNSET.has(t)&&!S.helper)continue;const src=clipFor(lang,t);
+  if(!src&&lang==="bn"){const ws=t.split(SPLIT).filter(Boolean);if(ws.length>1&&ws.every(w=>clipFor("bn",w))){ws.forEach(w=>playQ.push({lang,t:w,src:clipFor("bn",w)}));continue}}
   playQ.push({lang,t,src})}
  playNext()}
 function say(t){talk([["bn",t]])}
@@ -314,8 +365,44 @@ const LINES={
  read:"Can you read this? Tap a word to hear it.",
  peek:["Let's check the picture.","Were you right?"],
  silly:"Here's a silly sentence. Can you read it?",
- unlock:"Hooray! You've opened a new pack!"
+ unlock:"Hooray! You've opened a new pack!",
+ matraFirst:"Your turn. Start with the top line, from left to right.",
+ mash:"Let's make silly animals, just like Sukumar Ray!",
+ rhyme:"Listen to the rhyme. Then tap the coloured letters you know!"
 };
+/* The same helper lines in everyday Bengali, played straight after the English so the phrases become familiar */
+const BN={
+ "Hello! Pick a pack, and let's play with letters.":"হ্যালো! একটা প্যাক বেছে নাও, চলো অক্ষর নিয়ে খেলি।",
+ "Let's meet some new letters. Tap the big letter to hear it.":"চলো নতুন অক্ষর চিনি। বড় অক্ষরটা ছুঁয়ে শোনো।",
+ "Watch the pencil first.":"আগে পেন্সিলটা দেখো।",
+ "Your turn. Put your finger on the green dot, and follow the arrows to the star.":"এবার তোমার পালা। সবুজ বিন্দুতে আঙুল রাখো, তারপর তীর ধরে তারা পর্যন্ত যাও।",
+ "Your turn. Start with the top line, from left to right.":"এবার তোমার পালা। প্রথমে মাত্রা টানো, বাঁ থেকে ডানে।",
+ "Lovely. Now the next line.":"বাহ! এবার পরের দাগ।",
+ "Good. Keep going.":"ভালো! চালিয়ে যাও।",
+ "Nice and smooth. Next line.":"সুন্দর হয়েছে! পরের দাগ।",
+ "Now the top line. From left to right.":"এবার মাত্রা। বাঁ থেকে ডানে।",
+ "Now tap the little dot.":"এবার ছোট্ট বিন্দুতে টোকা দাও।",
+ "Start at the green dot.":"সবুজ বিন্দু থেকে শুরু করো।",
+ "Nearly! Try to stay on the track.":"প্রায় হয়েছে! দাগের ওপর থাকো।",
+ "Oops. Back to the dot, and follow the arrows.":"উফ! বিন্দুতে ফিরে যাও, তীর ধরে চলো।",
+ "Brilliant! Three stars!":"দারুণ! তিনটা তারা!",
+ "Wonderful writing! Three stars!":"চমৎকার লেখা! তিনটা তারা!",
+ "Well done! You wrote it!":"শাবাশ! তুমি লিখে ফেলেছ!",
+ "Good job! Let's try again for three stars?":"ভালো হয়েছে! তিনটা তারার জন্য আবার চেষ্টা করবে?",
+ "Can you read this? Tap a word to hear it.":"এটা পড়তে পারো? শব্দটা ছুঁয়ে শোনো।",
+ "Let's check the picture.":"চলো ছবিটা দেখি।",
+ "Were you right?":"ঠিক হয়েছে তো?",
+ "Here's a silly sentence. Can you read it?":"এই যে একটা মজার বাক্য! পড়তে পারো?",
+ "Hooray! You've opened a new pack!":"হুররে! নতুন প্যাক খুলে গেছে!",
+ "Let's make silly animals, just like Sukumar Ray!":"চলো, সুকুমার রায়ের মতো মজার জন্তু বানাই!",
+ "Listen to the rhyme. Then tap the coloured letters you know!":"ছড়াটা শোনো। তারপর রঙিন অক্ষরগুলো ছুঁয়ে দেখো!",
+ "This letter says":"এই অক্ষরটা হলো",
+ "as in":"যেমন",
+ "Hello! I am here to help.":"হ্যালো! আমি তোমাকে সাহায্য করব।",
+ "Home":"বাড়ি","Back":"আগের","Next letter":"পরের অক্ষর","Again":"আবার","Next":"পরের","Start again":"মোছো","Next one":"পরেরটা",
+ "Silly animals":"খিচুড়ি জন্তু","Rhymes":"ছড়া"
+};
+const BNSET=new Set(Object.values(BN));
 const isMatra=st=>st.path&&st.pts[0][1]===22&&st.pts[st.pts.length-1][1]===22;
 let actx;
 function chime(kind){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const notes=kind==="win"?[523,659,784,1047]:kind==="step"?[784]:[220];
@@ -417,7 +504,7 @@ $("watch").onclick=()=>{startLetter(T.i)};
 function demo(){stopDemo();T.demo={k:0,d:0};info();help(LINES.watch,true);let last=performance.now();
  const tick=now=>{if(!T||!T.demo)return;const dt=Math.min(50,now-last);last=now;const st=T.strokes[T.demo.k];
   T.demo.d+=dt*(st.dot?1:.04);const n=st.pts.length-1;
-  if(st.dot?T.demo.d>350:T.demo.d>=n){T.demo.k++;T.demo.d=0;if(T.demo.k>=T.strokes.length){setTimeout(()=>{if(T&&T.demo){T.demo=null;draw();info();help(LINES.turn,true)}},400);draw();return}}
+  if(st.dot?T.demo.d>350:T.demo.d>=n){T.demo.k++;T.demo.d=0;if(T.demo.k>=T.strokes.length){setTimeout(()=>{if(T&&T.demo){T.demo=null;draw();info();help(isMatra(T.strokes[0])?LINES.matraFirst:LINES.turn,true)}},400);draw();return}}
   draw();demoTimer=requestAnimationFrame(tick)};
  demoTimer=requestAnimationFrame(tick)}
 function stopDemo(){if(demoTimer)cancelAnimationFrame(demoTimer);demoTimer=null;if(T)T.demo=null}
@@ -463,10 +550,10 @@ function openRead(ft){fromTrace=ft;const known=knownUpTo(curPack);
  readList=PACKS.slice(0,curPack+1).flatMap((p,pi)=>p.sentences.map(s=>({t:s[0],en:s[1],mine:pi===curPack}))).filter(s=>readable(s.t,known));
  readList.sort((a,b)=>b.mine-a.mine);readI=0;show("read");renderVocab(known);renderSentence();help(LINES.read,true)}
 function renderSentence(){const s=readList[readI];if(!s)return;$("readInfo").textContent=`${bn(readI+1)}/${bn(readList.length)}`;
- $("sentence").innerHTML=s.t.split(/(\s+|[,!?।])/).filter(x=>x&&x.trim()).map(x=>/^[,!?।]$/.test(x)?`<span class="punct">${x}</span>`:`<button class="wd" data-w="${x}">${x}</button>`).join("");
+ $("sentence").innerHTML=s.t.split(/(\s+|[,!?।:+=])/).filter(x=>x&&x.trim()).map(x=>/^[,!?।:+=]$/.test(x)?`<span class="punct">${x}</span>`:`<button class="wd" data-w="${x}">${x}</button>`).join("");
  $("split").innerHTML="";
  $("reveal").innerHTML=`<button class="peek" id="peek">🙈 দেখি<small class="en">Peek at the picture</small></button>`;
- $("peek").onclick=()=>{const pics=s.t.split(/[\s,!?।]+/).filter(Boolean).map(w=>W[w]?.e||"").join(" ");
+ $("peek").onclick=()=>{const pics=s.t.split(SPLIT).filter(Boolean).map(w=>W[w]?.e||"").join(" ");
   $("reveal").innerHTML=`<div><div class="pics">${pics}</div><div class="en">${s.en}</div></div>`;chime("step");talk([["en",pick(LINES.peek)],["bn",s.t]])};
  $("sentence").querySelectorAll(".wd").forEach(b=>b.onclick=()=>{$("sentence").querySelectorAll(".wd").forEach(x=>x.classList.remove("lit"));b.classList.add("lit");
   const w=b.dataset.w;$("split").innerHTML=[...w].map(ch=>`<b>${ch==="া"?"◌া":ch}</b>`).join(" + ")+` = ${w}`;say(w)})}
@@ -479,28 +566,62 @@ function renderVocab(known){const prev=curPack?knownUpTo(curPack-1):new Set();co
  $("vocab").querySelectorAll(".chip").forEach(b=>b.onclick=()=>say(b.dataset.w))}
 
 /* ───────────── Silly machine ───────────── */
+/* Sound-words mean something (Sukumar Ray: চলে হনহন, ঘোরে বনবন, শীতে কনকন, কাশি খনখন), so each one only goes with what it can describe */
+const SOUND_OK={"কলকল":["জল","কল"],"বকবক":["বক","মামা","বাবা","মা","কাক","গাধা"],"কনকন":["জল","বরফ","বাতাস"],"বনবন":["বল","বাঘ","গাধা"],
+ "হনহন":["বাঘ","মামা","বাবা","মা","গাধা","বর"],"সরসর":["অজগর"],"খনখন":["মামা","বাবা","গাধা","বাঘ"],"গমগম":["ঘর"],"হাহা":["মামা","বাবা","মা","গাধা"]};
 function silly(){const pi=lastOpen(),known=knownUpTo(pi);const ok=w=>readable(w,known);
  const of=tag=>WORDS.filter(([w,,,t])=>t.split(" ").includes(tag)&&ok(w)).map(x=>x[0]);
- const who=of("who"),things=of("n"),adj=of("a"),food=of("food");const tpl=[];
- const objs=things.filter(x=>!W[x].tags.includes("who"));
- if(adj.length)tpl.push(()=>[`${pick(things)} ${pick(adj)}!`]);
- if(ok("ধর")&&objs.length)tpl.push(()=>[`${pick(who)}, ${pick(objs)} ধর!`]);
- if(ok("বস"))tpl.push(()=>[`${pick(who)}, বস!`]);
+ const who=of("who"),things=of("n"),food=of("food");const tpl=[];
+ const pairs=Object.entries(SOUND_OK).filter(([sd])=>ok(sd)).flatMap(([sd,subs])=>subs.filter(ok).map(x=>`${x} ${sd}`));
  if(ok("খা")&&food.length)tpl.push(()=>[`${pick(who)}, ${pick(food)} খা!`]);
- if(ok("কর")&&tpl.length<3)tpl.push(()=>[`${pick(who)}, বল কর!`]);
+ if(pairs.length)tpl.push(()=>[`${pick(pairs)}!`]);
+ if(pairs.length>2)tpl.push(()=>{const a=pick(pairs);let b=pick(pairs);while(b===a||b.split(" ")[0]===a.split(" ")[0])b=pick(pairs);return[`${a}, ${b}!`]});
  const out=[];for(let i=0;i<30;i++){const t=pick(tpl)()[0];if(!out.includes(t))out.push(t)}
  return out.map(t=>({t,en:"A silly sentence: tap দেখি to check!",mine:true}))}
 $("sillyBtn").onclick=()=>{curPack=lastOpen();readList=silly();readI=0;show("read");renderVocab(knownUpTo(curPack));renderSentence();$("readInfo").textContent="🎲";help(LINES.silly,true)};
 
 /* ───────────── Grown-up panel ───────────── */
-$("parentBtn").onclick=()=>{$("optHelper").checked=S.helper;$("optEasy").checked=S.easy;$("optAll").checked=S.all;$("parent").showModal()};
+$("parentBtn").onclick=()=>{$("optHelper").checked=S.helper;$("optBn").checked=S.bnHelp;$("optEasy").checked=S.easy;$("optAll").checked=S.all;$("parent").showModal()};
 $("closeParent").onclick=()=>$("parent").close();
 $("optEasy").onchange=e=>{S.easy=e.target.checked;save()};
 $("optAll").onchange=e=>{S.all=e.target.checked;save();renderHome()};
 function helperIcon(){$("helperBtn").textContent=S.helper?"🔊":"🔇"}helperIcon();
 $("helperBtn").onclick=()=>{S.helper=!S.helper;save();helperIcon();if(S.helper)help("Hello! I am here to help.",true);else stopAll()};
 $("optHelper").onchange=e=>{S.helper=e.target.checked;save();helperIcon()};
+$("optBn").onchange=e=>{S.bnHelp=e.target.checked;save()};
 $("resetBtn").onclick=()=>{if(confirm("Reset all stars and progress?")){S.best={};save();renderHome()}};
+
+/* ───────────── খিচুড়ি animals ───────────── */
+$("mashBtn").onclick=()=>{curPack=lastOpen();const known=knownUpTo(curPack);
+ const list=MASH.filter(([a,b,m])=>readable(a+b+m,known));
+ if(!list.length){chime("oops");talk([["en","Finish pack three to make silly animals!"]]);$("mashBtn").animate([{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"none"}],250);return}
+ readList=list.map(([a,b,m,en])=>({t:`${a} + ${b} = ${m}!`,en,mine:true}));readI=0;show("read");renderVocab(known);renderSentence();$("readInfo").textContent="🧪";help(LINES.mash,true)};
+
+/* ───────────── Rhymes: hunt for letters you know ───────────── */
+let rhymeI=0;
+const CLUSTER=/\P{M}(?:\u09CD\P{M}|(?!\u09CD)\p{M})*/gu;
+function openRhyme(i){rhymeI=i||0;curPack=lastOpen();show("rhyme");renderRhyme();help(LINES.rhyme,true)}
+function renderRhyme(){const r=RHYMES[rhymeI],known=knownUpTo(lastOpen());let total=0;
+ $("rhymeTabs").innerHTML=RHYMES.map((x,i)=>`<button class="${i===rhymeI?"on":""}" data-i="${i}">${x.title}</button>`).join("");
+ $("rhymeTabs").querySelectorAll("button").forEach(b=>b.onclick=()=>{rhymeI=+b.dataset.i;renderRhyme()});
+ $("poem").innerHTML=`<h3>${r.title}</h3>`+r.lines.map((l,li)=>`<div class="ln" data-li="${li}">${(l.match(CLUSTER)||[]).map(c=>{const base=c[0];
+   if(known.has(base)){total++;return `<span class="kn" data-l="${base}">${c}</span>`}return c}).join("")}</div>`).join("")+
+  `<div class="credit">সুকুমার রায় · ${r.src||"আবোল তাবোল (১৯২৩)"}<br>${r.en}</div>`;
+ $("rhymeInfo").textContent=`${bn(rhymeI+1)}/${bn(RHYMES.length)}`;
+ const count=()=>{const hit=$("poem").querySelectorAll(".kn.hit").length;
+  $("rhymeCount").innerHTML=`খুঁজে পেয়েছ ${bn(hit)}/${bn(total)} 🔍<small class="en" style="font-size:13px">Letters you know found: ${hit} of ${total}</small>`;
+  if(hit&&hit===total){chime("win");confetti(["⭐","📜","🎉"]);help(pick(LINES.win3),true)}};
+ $("poem").querySelectorAll(".ln").forEach(ln=>ln.onclick=e=>{if(!e.target.closest(".kn"))playLines(+ln.dataset.li,true)});
+ $("poem").querySelectorAll(".kn").forEach(sp=>sp.onclick=()=>{const l=sp.dataset.l;$("poem").querySelectorAll(`.kn[data-l="${l}"]`).forEach(x=>x.classList.add("hit"));say(l);count()});
+ count()}
+$("rhymeBtn").onclick=()=>openRhyme(0);
+/* each line is its own clip, so pairs like ঘোরে বনবন always stay together */
+function playLines(from,only){stopAll();const r=RHYMES[rhymeI];const lines=$("poem").querySelectorAll(".ln");let i=from;
+ const step=()=>{lines.forEach(x=>x.classList.remove("now"));if(i>=r.lines.length||(only&&i>from))return;const el=lines[i];el.classList.add("now");
+  const src=clipFor("bn",r.lines[i]);const go=()=>{i++;setTimeout(step,350)};
+  if(src){const a=curAudio=new Audio(src);a.onended=go;a.onerror=go;a.play().catch(go)}else{ttsOne({lang:"bn",t:r.lines[i]});setTimeout(go,1500)}};
+ step()}
+$("rhymeSay").onclick=()=>playLines(0);
 
 document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(b)help(b.dataset.say,true)});
 renderHome();
